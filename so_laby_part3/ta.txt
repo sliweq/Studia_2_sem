@@ -1,0 +1,57 @@
+Ogólny opis zadania 
+Zadaie 3 przydział stron 
+
+Pamięc jakiegos programu dzielimy na równe części czyli ramki 
+
+Algrorymy będą zarzadzały programamia czy ramkami programów i zapisywanie ich do pamięci fizycznej 
+
+Liczba błędów strony czyli chęc wykorzystania danego procesu którego nie ma w pamięci. np proces chce wykorzystac p5 a w ramie jest p1 p2 p3 p4 
+to wywalamy jakis i jazda 
+
+W ramki ładujemy strony
+
+Ciąg odwołań może byc wygenerowany na początku i tyle 
+ramek przykład 10 a stron 50. liczba odwołań w 10k < 
+Gdy pamięc jest pusta to i chemy się odwołac do p1 to i tak następuje błąd strony
+
+Zasada lokalności odwołań. Jakie strony wykorzystuje proces. Przez określony czas generujemy odwołanania do okreslonego prdodzbioru.
+Max raczej 1/2 całego procesu 
+
+Algorytmy less go
+FIFO - nie ma zaskoczenia fifo. xd 1 2 3 4 to jak sie pojawia nowy element np 5 to wyjebujemy 1  
+RAND - random xd 
+OPT - patrz się do przodu jakie sa w przyszłości. Patrzymy kiedy będa odwołania do stron. Która ma najdalej odwołanie wypierdala
+Sprawdzamy tylko wszyskie które sa w ramie. 
+LRU - odwrotność OPT. nie można w przód ale mozna patrzec się do tyłu. 
+//Które strony były używane poprzednio. 
+//Patrzymy która była ostatnio albo która dawno nie była używana i usuwamy 
+
+ALRU- troche podonie jak lru. ale mamy cos tkeigo jak algorytm drugiej szansy czyli kazda strona w ramie ma bit 1 ablo 0
+Jesli strona dolacza do ramu to ma 1. Jesli ram jest pełny i wystepuje blad strony to iterujemy po ramie i szukamy 0 . Jesli nie ma 
+to odejmujemy jeden bit od kazdego. Jak przejdziemy przez ccałe to pierwszy napotkant 0 zamieniamy na nowa strone i nowa strona ma 
+bit 1. Jesli strona np chuj ma bit 0 i bedzie odwołanie do niej do odświeżamy na 1. ogólnie jezeli odejmowanie zatrzymało sie np na 
+4 stronie to szukanie w przypadku błędu strony od strony nr 5 
+
+Szamotanie strony keidy mamy 20 odwołan i np 13/12 razy pojawiaja sie błedy strony 
+
+Chuj chuj zadanie 4 prydział ramek
+
+Zadanie 4 jest podobnie. Procesów jest więcej niż jeden. Badamy przydział ramek. ile ramek w Ramie musimy przydzielić do 
+procesu jednego ile do koljenego itd
+
+Identyfikatory nie mogą sie powtarzac w procesach
+
+tworzymy kolejke dla każdego procesu i łączymy losowo np proces 1 proces 2 i łaczenie wyglada np 1121212221221212221 losowo i chuj 
+Dzielimy ram dla kazdego prcesu żeby wszystkie miały jak najmniej błędów strony 
+
+jeżeli chodzi o algorytm przydział stron to mamy odpalone jeden algorytm
+
+ALGORYTM przydział równy czyli po równo dla każdego procesu
+ALGORYTM przydział proporcjonalny czyli jal proces 1 ma 1 2 3 4 5 zasobów a proces 2: 1 2 3 to jak jest 8 ramek to jeden dostaje 5 a drugi 3 
+
+na jeden proces minilanie jedna ramka !!!!!! 
+
+Przydział dynamiczny doczytać bo na jednym nie uważałeś pizdo !!!
+
+ALGORYTM 
+ALGORYTM

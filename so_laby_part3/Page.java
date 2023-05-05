@@ -1,0 +1,41 @@
+package so_laby_part3;
+
+public class Page {
+    private int numberOfPage;
+    private int timeInRam;
+    private int chance; 
+
+    public Page(int numberOfPage){
+        this.numberOfPage = numberOfPage;
+        timeInRam = 0; 
+        chance = 1;
+    }
+
+    public void setNumberOfPage(int numberOfPage){
+        this.numberOfPage = numberOfPage;
+    }
+
+    public int getNumberOfPage(){
+        return numberOfPage;
+    }
+
+    public void increaseTime(){
+        timeInRam +=1;
+    }
+
+    public int getTimeInRam(){
+        return timeInRam;
+    }
+
+    public void decreaseChance(){
+        chance -= 1;
+    }
+    public void increaseChance(){
+        chance += 1;
+    }
+
+    public int getChance(){
+        return chance;
+    }
+    
+}

@@ -1,0 +1,5 @@
+jeżeli chodzi o fcfs to wyszedł zdecydowanie najgorzej 
+cscan wyszedł podobnie jak sstf 
+scan wyszedł jako drugi najgorszej
+
+jeżeli chodzi o o strategie to edf scan zazwyczaj miał więcej zrobionych real time 

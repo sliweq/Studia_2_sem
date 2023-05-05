@@ -1,0 +1,42 @@
+jeden procek. Jeden wątek i przydzielamy mu zadania
+Równe priorytety i nie ma ważniejszych
+Czas pojawienia sie/jak długii jest proces czy cos
+
+Najważniejsze
+kiedy i jak długo 
+
+execution time/ time left
+
+ile razy zmieniało sie przełączenie 
+przełączenie najlpeiej dać w 0.1 albo coś. Jak czas jest w całkowitych
+
+status zadania by sie przydał
+
+najelpiej nie usuwac zakończonych tasków 
+
+czas oczekiwania 
+
+zliczanie przełączenie !!! nie dodawać do czasu !!!
+
+Skala 1k 10k 100k
+
+Radnom sobie ustawic ifam. w jakis przedziałach *10
+
+Sensowne nazwy zmiennych !!!!
+
+Arrival time -> 
+Cała kolejka na początku symulacji np 10k
+długość działania to może być liczba np pół miliona. można z czasem ale no gorsza rzecz. 
+
+Algorytmy 
+
+Komparatory !!!!!
+
+FIFO/FCFS.  
+SJF Można wybrać tylko jednego SJF 
+RR Jeśli czas wykonania jest 5 i k = 3 to jak jest wykonane 3 i ponownie przyjdzie to robi 2 i następny task robiu juz normlanie 3 razy 
+
+Średni czas wykonania od momentu startu do zakończenia
+Ilość przełączeń 
+Średni czas oczekiwania 
+Sortowanie nie zajmuje czasu w SJF 
