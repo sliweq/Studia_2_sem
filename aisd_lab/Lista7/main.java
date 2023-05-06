@@ -10,7 +10,7 @@ import java.util.Random;
 import so_laby_part3.Rand;
 
 public class main {
-    private static int iloscLiczb = 10_000;
+    private static int iloscLiczb = 20_000;
     private static ArrayList<Integer> insertList = new ArrayList<>();
     private static ArrayList<Integer> bubbleList = new ArrayList<>();
     private static ArrayList<Integer> selectList = new ArrayList<>();
@@ -238,64 +238,61 @@ public class main {
 
     //heap sort
 
-    public static void heapSort(){   
+    public static void heapSortExecute(){
+        System.out.println("heap sort:");
+
+        long timer = System.nanoTime();
+        heapSor(heapList); 
+
+        System.out.println("\tRandomowa kolejność: " + (System.nanoTime()-timer));
+
+        timer = System.nanoTime();
+        heapSor(heapList);   
+
+        System.out.println("\tRosnąca kolejność: "+ (System.nanoTime()-timer));
+
+        Collections.reverse(heapList);
+
+        timer = System.nanoTime();
+        heapSor(heapList);   
+
+        System.out.println("\tMalejąca kolejność: "+(System.nanoTime()-timer));
 
     }
-    //fix heap od naprawiania kopca po zmianie
-    //swap zmienia korzen na ostatni
-    //build heap po prostu budowanie kopca 
-    public static void fixHeap(ArrayList<Integer> lista, int ostatni){
+    public static void heapSor(ArrayList<Integer> lista){
+        for (int x=(iloscLiczb-1)/2; x>=0; x--){
+            fixHeap(lista, x, iloscLiczb);
+        }
 
-        int korzen = 0;
-        while((korzen*2)+1<lista.size()){
-            if((korzen*2)+2< lista.size()){
-                if(lista.get(korzen*2)+2 > lista.get(korzen)){
-                    //zmiana
+        for (int i = iloscLiczb-1; i>0; i--){
+            if(i != 0){
+                Integer tmp = lista.get(i);
+                lista.set(i, lista.get(0));
+                lista.set(0, tmp);
+            }
+            fixHeap(lista, 0, i);
+        }
+        
+        
+    }
+
+    public static void fixHeap(ArrayList<Integer> lista, int korzen, int ostatni){
+        int dziecko = 2*korzen+1;
+        if(dziecko<ostatni){
+            if(dziecko+1 < ostatni && lista.get(dziecko) < lista.get(dziecko+1)){
+                dziecko +=1;
+            }
+            if(lista.get(korzen) <  lista.get(dziecko)){
+                if(korzen != dziecko){
+                    Integer tmp = lista.get(korzen);
+                    lista.set(korzen, lista.get(dziecko));
+                    lista.set(dziecko, tmp);
                 }
+                fixHeap(lista, dziecko, ostatni);
             }
-            else(lista.get(korzen*2)+1 < lista.get(korzen)){
-
-            }
-        } 
-
-
-        // int korzen = pierwszy;
-        // int dziecko1 = 2*pierwszy +1;
-        // int dziecko2 = 2*pierwszy +2;
-
-        // if(dziecko2<ostatni){
-        //     if(lista.get(dziecko2)> lista.get(dziecko1)){
-        //         if(lista.get(korzen) < lista.get(dziecko2)){
-        //             korzen = dziecko2;
-        //         }
-        //     }
-        //     else if(lista.get(korzen)< lista.get(dziecko1)){
-        //         korzen = dziecko1;
-        //     }
-        // }
-        // else if(dziecko1<ostatni && lista.get(korzen)< lista.get(dziecko1)){
-        //     korzen = dziecko1;
-        // }
-
-        // if(korzen != pierwszy){
-        //     Integer tmp = lista.get(pierwszy);
-        //     lista.set(pierwszy, lista.get(korzen));
-        //     lista.set(korzen, tmp);
-
-        //     fixHeap(lista, korzen, ostatni);
-        // }
+        }
     }
 
-
-    public static int swap(ArrayList<Integer> lista, int koniec){
-        Integer nowyKorzen = lista.get(koniec);
-        lista.set(koniec, lista.get(0));
-        lista.set(0, nowyKorzen);
-        //fix after that
-        return (koniec-1);
-    }
-    
-    public static void buildHeap(){}
     //merge sort 
 
     public static void mergeSortExecute(){
@@ -364,12 +361,7 @@ public class main {
         selectSort();
         mergeSortExecute();
         quickSortExecute();
-
-        // System.out.println("Xdddd");
-        // for(int x: quickList){
-        //     System.out.println(x);
-        // }
-
+        heapSortExecute();
     }
     
 }
