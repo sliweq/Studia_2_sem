@@ -31,6 +31,8 @@ public class main {
         }
     }
 
+    //insert sort
+
     public static void insertSort(){
 
         System.out.println("Insert sort:");
@@ -73,6 +75,8 @@ public class main {
 
     }
 
+    //bubble sort 
+
     public static void bubbleSort(){ 
         System.out.println("Bubble sort:");
         long timer = System.nanoTime();
@@ -112,6 +116,8 @@ public class main {
 
         System.out.println("\tMalejąca kolejność: "+(System.nanoTime()-timer));
     }
+
+    //select sort 
 
     public static void selectSort(){
 
@@ -163,12 +169,134 @@ public class main {
         System.out.println("\tMalejąca kolejność: "+(System.nanoTime()-timer));
 
     }
+
+    //quick sort
+
+    public static void quickSortExecute(){
+        System.out.println("quick sort:");
+
+        long timer = System.nanoTime();
+        quickList = quickSort(quickList);
+
+        System.out.println("\tRandomowa kolejność: " + (System.nanoTime()-timer));
+
+        timer = System.nanoTime();
+        quickList = quickSort(quickList);
+
+        System.out.println("\tRosnąca kolejność: "+ (System.nanoTime()-timer));
+
+        Collections.reverse(mergeList);
+
+        timer = System.nanoTime();
+        quickList = quickSort(quickList);
+
+        System.out.println("\tMalejąca kolejność: "+(System.nanoTime()-timer));
+    }
     
-    public static void quickSort(){
-        //tak a 
+    public static ArrayList<Integer> quickSort(ArrayList<Integer> lista){
+        Random rand = new Random();
+        ArrayList<Integer> mniejsze = new ArrayList<>();
+        if(lista.size() == 0){
+            return lista;
+        }
+        int pivotIndex = rand.nextInt(0,lista.size());
+        Integer pivot;
+        ArrayList<Integer> wieksze = new ArrayList<>();
+
+        if(lista.size() == 1){
+            pivot = lista.get(0);
+            return mergeQuick(mniejsze, pivot, wieksze);
+        }
+        
+        pivot = lista.remove(pivotIndex);
+        for(Integer x : lista){
+            if(x > pivot){
+                wieksze.add(x);
+            }
+            else if(x <= pivot){
+                mniejsze.add(x);
+            }
+        }
+        return mergeQuick(quickSort(mniejsze), pivot, quickSort(wieksze));
+        
     }
 
-    public static void heapSort(){}
+    public static ArrayList<Integer> mergeQuick(ArrayList<Integer> mniejsze, Integer pivot, ArrayList<Integer> wieksze){
+        ArrayList<Integer> tmpList = new ArrayList<>();
+
+        for(Integer i: mniejsze){
+            tmpList.add(i);
+        }
+        tmpList.add(pivot);
+
+        for(Integer i: wieksze){
+            tmpList.add(i);
+        }
+
+        return tmpList;
+    }
+
+    //heap sort
+
+    public static void heapSort(){   
+
+    }
+    //fix heap od naprawiania kopca po zmianie
+    //swap zmienia korzen na ostatni
+    //build heap po prostu budowanie kopca 
+    public static void fixHeap(ArrayList<Integer> lista, int ostatni){
+
+        int korzen = 0;
+        while((korzen*2)+1<lista.size()){
+            if((korzen*2)+2< lista.size()){
+                if(lista.get(korzen*2)+2 > lista.get(korzen)){
+                    //zmiana
+                }
+            }
+            else(lista.get(korzen*2)+1 < lista.get(korzen)){
+
+            }
+        } 
+
+
+        // int korzen = pierwszy;
+        // int dziecko1 = 2*pierwszy +1;
+        // int dziecko2 = 2*pierwszy +2;
+
+        // if(dziecko2<ostatni){
+        //     if(lista.get(dziecko2)> lista.get(dziecko1)){
+        //         if(lista.get(korzen) < lista.get(dziecko2)){
+        //             korzen = dziecko2;
+        //         }
+        //     }
+        //     else if(lista.get(korzen)< lista.get(dziecko1)){
+        //         korzen = dziecko1;
+        //     }
+        // }
+        // else if(dziecko1<ostatni && lista.get(korzen)< lista.get(dziecko1)){
+        //     korzen = dziecko1;
+        // }
+
+        // if(korzen != pierwszy){
+        //     Integer tmp = lista.get(pierwszy);
+        //     lista.set(pierwszy, lista.get(korzen));
+        //     lista.set(korzen, tmp);
+
+        //     fixHeap(lista, korzen, ostatni);
+        // }
+    }
+
+
+    public static int swap(ArrayList<Integer> lista, int koniec){
+        Integer nowyKorzen = lista.get(koniec);
+        lista.set(koniec, lista.get(0));
+        lista.set(0, nowyKorzen);
+        //fix after that
+        return (koniec-1);
+    }
+    
+    public static void buildHeap(){}
+    //merge sort 
 
     public static void mergeSortExecute(){
         System.out.println("Merge sort:");
@@ -233,11 +361,12 @@ public class main {
         createLists();
         bubbleSort();
         insertSort();
-
         selectSort();
         mergeSortExecute();
- 
-        // for(int x: mergeList){
+        quickSortExecute();
+
+        // System.out.println("Xdddd");
+        // for(int x: quickList){
         //     System.out.println(x);
         // }
 
