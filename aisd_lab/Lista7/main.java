@@ -1,6 +1,7 @@
 package Lista7;
 
 import java.lang.reflect.Array;
+import java.text.CollationElementIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,7 +16,7 @@ public class main {
     private static ArrayList<Integer> selectList = new ArrayList<>();
     private static ArrayList<Integer> quickList = new ArrayList<>();
     private static ArrayList<Integer> heapList = new ArrayList<>();
-    private static ArrayList<Integer> mergeSort = new ArrayList<>();
+    private static ArrayList<Integer> mergeList = new ArrayList<>();
 
     public static void createLists(){
         for(int x= 0;x < iloscLiczb; x++){
@@ -26,10 +27,9 @@ public class main {
             selectList.add(liczba);
             quickList.add(liczba);
             heapList.add(liczba);
-            mergeSort.add(liczba);
+            mergeList.add(liczba);
         }
     }
-
 
     public static void insertSort(){
 
@@ -164,12 +164,68 @@ public class main {
 
     }
     
-    public static void quickSort(){}
+    public static void quickSort(){
+        //tak a 
+    }
 
     public static void heapSort(){}
 
-    public static void mergeSort(){}
+    public static void mergeSortExecute(){
+        System.out.println("Merge sort:");
 
+        long timer = System.nanoTime();
+        mergeList = mergeSort(mergeList, 0, iloscLiczb-1);
+        System.out.println("\tRandomowa kolejność: " + (System.nanoTime()-timer));
+
+        timer = System.nanoTime();
+        mergeList = mergeSort(mergeList, 0, iloscLiczb-1);
+        System.out.println("\tRosnąca kolejność: "+ (System.nanoTime()-timer));
+
+        Collections.reverse(mergeList);
+
+        timer = System.nanoTime();
+        mergeList = mergeSort(mergeList, 0, iloscLiczb-1);
+        System.out.println("\tMalejąca kolejność: "+(System.nanoTime()-timer));
+
+        
+    }
+
+    public static ArrayList<Integer> mergeSort(ArrayList<Integer> lista , int start, int end){
+        if(start == end){
+            ArrayList<Integer> l = new ArrayList<>();
+            l.add(lista.get(start));
+            return l;
+        }
+
+        int split = start + (end - start) / 2;
+
+        return mergeMerge(mergeSort(lista,start, split), mergeSort(lista,split+1,end));
+
+    }
+
+    public static ArrayList<Integer> mergeMerge(ArrayList<Integer> l1, ArrayList<Integer> l2){
+        ArrayList<Integer> tmpList = new ArrayList<>();
+        while(l1.size() != 0 && l2.size()!=0){
+            if(l1.get(0)>= l2.get(0)){
+                tmpList.add(l2.remove(0));
+                
+            }
+            else{
+                tmpList.add(l1.remove(0));
+            }
+        }
+        if(l1.size() == 0){
+            while(l2.size() != 0){
+                tmpList.add(l2.remove(0));
+            }
+        }
+        else if(l2.size() == 0){
+            while(l1.size() != 0){
+                tmpList.add(l1.remove(0));
+            }
+        }
+        return tmpList;
+    }
 
 
     public static void main(String[] args){
@@ -179,8 +235,9 @@ public class main {
         insertSort();
 
         selectSort();
-
-        // for(int x: insertList){
+        mergeSortExecute();
+ 
+        // for(int x: mergeList){
         //     System.out.println(x);
         // }
 
