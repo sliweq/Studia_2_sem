@@ -1,16 +1,11 @@
 package Lista7;
 
-import java.lang.reflect.Array;
-import java.text.CollationElementIterator;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
-import so_laby_part3.Rand;
-
 public class main {
-    private static int iloscLiczb = 20_000;
+    private static int iloscLiczb = 10000;
     private static ArrayList<Integer> insertList = new ArrayList<>();
     private static ArrayList<Integer> bubbleList = new ArrayList<>();
     private static ArrayList<Integer> selectList = new ArrayList<>();
