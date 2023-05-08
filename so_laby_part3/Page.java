@@ -4,6 +4,15 @@ public class Page {
     private int numberOfPage;
     private int timeInRam;
     private int chance; 
+    private int numberOfProcess;
+
+    public void setNumberOfProcess(int numberofProcess){
+        this.numberOfProcess = numberofProcess;
+    }
+
+    public int getNumberOfProcess(){
+        return numberOfProcess;
+    }
 
     public Page(int numberOfPage){
         this.numberOfPage = numberOfPage;
@@ -37,5 +46,4 @@ public class Page {
     public int getChance(){
         return chance;
     }
-    
 }

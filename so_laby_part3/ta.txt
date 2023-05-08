@@ -13,7 +13,6 @@ W ramki ładujemy strony
 Ciąg odwołań może byc wygenerowany na początku i tyle 
 ramek przykład 10 a stron 50. liczba odwołań w 10k < 
 Gdy pamięc jest pusta to i chemy się odwołac do p1 to i tak następuje błąd strony
-
 Zasada lokalności odwołań. Jakie strony wykorzystuje proces. Przez określony czas generujemy odwołanania do okreslonego prdodzbioru.
 Max raczej 1/2 całego procesu 
 

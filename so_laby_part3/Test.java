@@ -36,6 +36,8 @@ public class Test {
         int localityMeter = 0;
         int localityLocation = 0; 
 
+        int maxLocal = 9;
+
         Random rand = new Random();
         
         for(int i= 0; i < numberOfAllPages; i++){
@@ -43,8 +45,10 @@ public class Test {
                 //dodawanie 
                 // w lokalnosci
 
-                if(localityLocation-5<0){
-                    int randomPage = rand.nextInt(Math.max(0, localityLocation-5),localityLocation+5);
+                int tmp_local = rand.nextInt(1,maxLocal);
+
+                if(localityLocation-tmp_local<0){
+                    int randomPage = rand.nextInt(Math.max(0, localityLocation-tmp_local),localityLocation+tmp_local);
                     fifoList.add(new Page(randomPage));
                     randList.add(new Page(randomPage));
                     optList.add(new Page(randomPage));
@@ -54,8 +58,8 @@ public class Test {
 
                     //z zakresu od 0 do 4
                 }
-                else if(localityLocation+5 > numberOfPages-1){
-                    int randomPage = rand.nextInt(localityLocation-5,Math.min(numberOfPages-1, localityLocation+5));
+                else if(localityLocation+tmp_local > numberOfPages-1){
+                    int randomPage = rand.nextInt(localityLocation-tmp_local,Math.min(numberOfPages-1, localityLocation+tmp_local));
                     fifoList.add(new Page(randomPage));
                     randList.add(new Page(randomPage));
                     optList.add(new Page(randomPage));
@@ -64,7 +68,9 @@ public class Test {
 
                 }
                 else{
-                    int randomPage = rand.nextInt(localityLocation -5, localityLocation+5);
+                    // System.out.println(tmp_local);
+                    // System.out.println((localityLocation -tmp_local)+" "+ (localityLocation+tmp_local));
+                    int randomPage = rand.nextInt(localityLocation -tmp_local, localityLocation+tmp_local);
                     fifoList.add(new Page(randomPage));
                     randList.add(new Page(randomPage));
                     optList.add(new Page(randomPage));
@@ -142,6 +148,9 @@ public class Test {
     }
 
     public void startTest(){
+        for(int x = 0;x < 100; x++){
+            System.out.println(fifoList.get(x).getNumberOfPage());
+        }
         Fifo fifo = new Fifo(fifoList, numberOfFrames);
         fifo.startSimualtion();
         Rand rand = new Rand(randList, numberOfFrames);
