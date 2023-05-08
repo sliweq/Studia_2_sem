@@ -148,9 +148,7 @@ public class Test {
     }
 
     public void startTest(){
-        for(int x = 0;x < 100; x++){
-            System.out.println(fifoList.get(x).getNumberOfPage());
-        }
+        
         Fifo fifo = new Fifo(fifoList, numberOfFrames);
         fifo.startSimualtion();
         Rand rand = new Rand(randList, numberOfFrames);

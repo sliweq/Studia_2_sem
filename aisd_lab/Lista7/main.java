@@ -267,8 +267,6 @@ public class main {
             }
             fixHeap(lista, 0, i);
         }
-        
-        
     }
 
     public static void fixHeap(ArrayList<Integer> lista, int korzen, int ostatni){
