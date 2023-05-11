@@ -19,7 +19,7 @@ public class zad1 {
             L.add(Integer.valueOf(rand.nextInt(0,max)));   
         }
 
-        for(int x: L){
+        for(int x: L){  
             if(buckets[(int) (x/numberOfBuckets) ] == null){
                 buckets[(int) (x/numberOfBuckets) ] = new ArrayList<>();
             }

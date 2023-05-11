@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Random;
 
 public class main {
-    private static int iloscLiczb = 10000;
+    private static int iloscLiczb = 1000  ;
     private static ArrayList<Integer> insertList = new ArrayList<>();
     private static ArrayList<Integer> bubbleList = new ArrayList<>();
     private static ArrayList<Integer> selectList = new ArrayList<>();
@@ -129,6 +129,7 @@ public class main {
             int tmp = selectList.get(i);
             selectList.set(i,selectList.get(najmniejsza));
             selectList.set(najmniejsza, tmp);
+
         }
 
         System.out.println("\tRandomowa kolejność: " + (System.nanoTime()-timer));
@@ -171,66 +172,67 @@ public class main {
         System.out.println("quick sort:");
 
         long timer = System.nanoTime();
-        quickList = quickSort(quickList);
+        quicksort(quickList,0,iloscLiczb);
 
         System.out.println("\tRandomowa kolejność: " + (System.nanoTime()-timer));
 
         timer = System.nanoTime();
-        quickList = quickSort(quickList);
+        quicksort(quickList,0,iloscLiczb);
 
         System.out.println("\tRosnąca kolejność: "+ (System.nanoTime()-timer));
 
         Collections.reverse(mergeList);
 
         timer = System.nanoTime();
-        quickList = quickSort(quickList);
+        quicksort(quickList,0,iloscLiczb);
 
         System.out.println("\tMalejąca kolejność: "+(System.nanoTime()-timer));
     }
     
-    public static ArrayList<Integer> quickSort(ArrayList<Integer> lista){
-        Random rand = new Random();
-        ArrayList<Integer> mniejsze = new ArrayList<>();
-        if(lista.size() == 0){
-            return lista;
-        }
-        int pivotIndex = rand.nextInt(0,lista.size());
-        Integer pivot;
-        ArrayList<Integer> wieksze = new ArrayList<>();
+    private static int partQuick(ArrayList<Integer> array, int pierwszy, int ostatni)
+    {
+        Random random = new Random();
+        int rand = pierwszy+random.nextInt(ostatni-pierwszy);
+        
+        int tmp = array.get(pierwszy);
+        array.set(pierwszy, array.get(rand));
+        array.set(rand, tmp);
+        
 
-        if(lista.size() == 1){
-            pivot = lista.get(0);
-            return mergeQuick(mniejsze, pivot, wieksze);
-        }
-        
-        pivot = lista.remove(pivotIndex);
-        for(Integer x : lista){
-            if(x > pivot){
-                wieksze.add(x);
+        int value = array.get(pierwszy);
+        int indexBigger = pierwszy+1, indexLower = ostatni-1;
+        while (indexBigger < indexLower){
+            while(indexBigger <= indexLower && array.get(indexBigger) <= value){
+                indexBigger++;
             }
-            else if(x <= pivot){
-                mniejsze.add(x);
+            while(array.get(indexLower) > value){
+                indexLower--;
             }
+
+            if(indexBigger < indexLower){
+                tmp = array.get(indexBigger);
+                array.set(indexBigger, array.get(indexLower));
+                array.set(indexLower, tmp);
+            }
+
+
+
         }
-        return mergeQuick(quickSort(mniejsze), pivot, quickSort(wieksze));
-        
+        tmp = array.get(pierwszy);
+        array.set(pierwszy, array.get(indexLower));
+        array.set(indexLower, tmp);        
+        return indexLower;
     }
 
-    public static ArrayList<Integer> mergeQuick(ArrayList<Integer> mniejsze, Integer pivot, ArrayList<Integer> wieksze){
-        ArrayList<Integer> tmpList = new ArrayList<>();
-
-        for(Integer i: mniejsze){
-            tmpList.add(i);
+    private static void quicksort(ArrayList<Integer> array, int start, int koniec)
+    {
+        if (koniec-start > 1)
+        {
+            int split = partQuick(array, start, koniec);
+            quicksort(array, start, split);
+            quicksort(array, split+1, koniec);
         }
-        tmpList.add(pivot);
-
-        for(Integer i: wieksze){
-            tmpList.add(i);
-        }
-
-        return tmpList;
     }
-
     //heap sort
 
     public static void heapSortExecute(){
@@ -254,12 +256,13 @@ public class main {
         System.out.println("\tMalejąca kolejność: "+(System.nanoTime()-timer));
 
     }
+
     public static void heapSor(ArrayList<Integer> lista){
         for (int x=(iloscLiczb-1)/2; x>=0; x--){
             fixHeap(lista, x, iloscLiczb);
         }
 
-        for (int i = iloscLiczb-1; i>0; i--){
+        for(int i = iloscLiczb-1; i>0; i--){
             if(i != 0){
                 Integer tmp = lista.get(i);
                 lista.set(i, lista.get(0));
@@ -349,6 +352,7 @@ public class main {
     public static void main(String[] args){
         System.out.println("--Pomiar  czasu odcywa się w nanosekundach 10^9 nanosekund to 1 sekunda--");
         createLists();
+
         bubbleSort();
         insertSort();
         selectSort();
