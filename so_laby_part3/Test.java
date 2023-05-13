@@ -6,8 +6,8 @@ import java.util.Random;
 public class Test {
 
     private int numberOfPages = 100;
-    private int numberOfFrames = 10;
-    private int numberOfAllPages = 5000;
+    private int numberOfFrames = 20;
+    private int numberOfAllPages = 10000;
 
     private ArrayList<Page> fifoList;
     private ArrayList<Page> randList;
@@ -26,6 +26,7 @@ public class Test {
     }
 
 
+    
     public void createPages(){
 
         //random jest ponizej 0.1 to jest lokalność czli kojelne 10 załóżmy procesów będzie lokalnie losowanych
@@ -68,8 +69,6 @@ public class Test {
 
                 }
                 else{
-                    // System.out.println(tmp_local);
-                    // System.out.println((localityLocation -tmp_local)+" "+ (localityLocation+tmp_local));
                     int randomPage = rand.nextInt(localityLocation -tmp_local, localityLocation+tmp_local);
                     fifoList.add(new Page(randomPage));
                     randList.add(new Page(randomPage));
@@ -107,21 +106,6 @@ public class Test {
                     
                     localityMeter -= 1;
                     tmp +=1;
-                    
-                    // //chyba trzeba to usunąć xd 
-
-                    // if(randomPage-4<0){
-                    //     //z zakresu od 0 do 4
-                    // }
-                    // else if(randomPage+4 > 49){
-                    //     //od 45 do 59
-                    // }
-                    // else{
-                    //     //normlanie juz
-                    // }
-                    // //wylosowanie strony
-                    // //ustawienie locality location
-                    // //itd 
                 }
                 else{
                     //dodanie randomowej strony chyba rand int;
@@ -131,10 +115,53 @@ public class Test {
             }
         }
     }
-    public void printStats(){
-        System.out.println("Number of random pages: " + (numberOfAllPages-tmp));
-        System.out.println("Number of pages with locality: " + tmp);
+    
+    public void createPagesv2(){
+        //fifo rand i opt
+        //1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5
+        fifoList.add(new Page(0));
+        fifoList.add(new Page(1));
+        fifoList.add(new Page(2));
+        fifoList.add(new Page(3));
+        fifoList.add(new Page(0));
+        fifoList.add(new Page(1));
+        fifoList.add(new Page(4));
+        fifoList.add(new Page(0));
+        fifoList.add(new Page(1));
+        fifoList.add(new Page(2));
+        fifoList.add(new Page(3));
+        fifoList.add(new Page(4));
 
+        randList.add(new Page(0));
+        randList.add(new Page(1));
+        randList.add(new Page(2));
+        randList.add(new Page(3));
+        randList.add(new Page(0));
+        randList.add(new Page(1));
+        randList.add(new Page(4));
+        randList.add(new Page(0));
+        randList.add(new Page(1));
+        randList.add(new Page(2));
+        randList.add(new Page(3));
+        randList.add(new Page(4));
+
+ 
+        optList.add(new Page(0));
+        optList.add(new Page(1));
+        optList.add(new Page(2));
+        optList.add(new Page(3));
+        optList.add(new Page(0));
+        optList.add(new Page(1));
+        optList.add(new Page(4));
+        optList.add(new Page(0));
+        optList.add(new Page(1));
+        optList.add(new Page(2));
+        optList.add(new Page(3));
+        optList.add(new Page(4));
+
+    }
+    
+    public void printStats(){
         int[] p = new int[numberOfPages];
         
         for(Page page: fifoList){
@@ -144,6 +171,13 @@ public class Test {
             System.out.print(x + ":"+p[x] + "|");
         }
         System.out.println();
+        System.out.println();
+
+        System.out.println("Number of random pages: " + (numberOfAllPages-tmp));
+        System.out.println("Number of pages with locality: " + tmp);
+
+        System.out.println();
+
 
     }
 
@@ -164,6 +198,7 @@ public class Test {
     public static void main(String[] args){
         Test t = new Test();
         t.createPages();
+
         t.printStats();
         t.startTest();
         

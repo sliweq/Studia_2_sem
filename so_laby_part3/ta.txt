@@ -52,5 +52,32 @@ na jeden proces minilanie jedna ramka !!!!!!
 
 Przydział dynamiczny doczytać bo na jednym nie uważałeś pizdo !!!
 
+Algorytm sterowaie częstością strony ustalamy deltę np t = 5; patrzymy sie ile w ciągu 5 ostatnich odwołań ile błędów strony się pojawiło 
+h - high 
+l - low
+Jeżeli będziemy zajebywać ramke przez l to możemy dodać od razu komus ramkę
+no ale przemysl to c bo nie uważałeś 
+Powyżej danej liczby np c zatrzymujemy proces
+
+
+ustalamy takie wartości i jezeli proces wiecej niz h to mozna mu dodac ramke a jezeli jest ponizej l to mozna mu odjac jeden
+
+sterowanie częstością strony 
+
 ALGORYTM 
-ALGORYTM
+ALGORYTM model strefowy 
+
+tworzymy wss 
+
+czyli np delta t =3
+
+historia: 1 1 2 1 3
+dla przedziału <1 1 2> 
+wss =2
+dla przedziału <2 1 3>
+wss =3
+przy freezowaniu procesów jak d wynisi 28 a ramek w ramie mamy 20 to można wybrać losowo, ten co najbliżej 8 ja będzie 8 to git jeśli nie 
+to np 9. Albo jeśli jest 7 procesów po 2 ramki i jeden który zajmuje 15 to lepiej freezować ten co ma 15 i chuj
+
+Wielkości 
+Prcesy do kilku. 10 starcza 

@@ -31,7 +31,9 @@ public class Page {
     public void increaseTime(){
         timeInRam +=1;
     }
-
+    public void resetTimeInRam(){
+        timeInRam = 1;
+    }
     public int getTimeInRam(){
         return timeInRam;
     }

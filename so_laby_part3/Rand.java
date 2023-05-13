@@ -64,10 +64,9 @@ public class Rand {
         }
         else{
             //jesli nie ma null
-                numberOfPagesErrors +=1;                
-                Random rand = new Random();
-                ram[rand.nextInt(0,numberOfFrames)] = page;
-            
+            numberOfPagesErrors +=1;                
+            Random rand = new Random();
+            ram[rand.nextInt(0,ram.length)] = page;
         }
     }
 

@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Random;
 
 public class main {
-    private static int iloscLiczb = 1000  ;
+    private static int iloscLiczb = 10000  ;
     private static ArrayList<Integer> insertList = new ArrayList<>();
     private static ArrayList<Integer> bubbleList = new ArrayList<>();
     private static ArrayList<Integer> selectList = new ArrayList<>();
@@ -172,66 +172,67 @@ public class main {
         System.out.println("quick sort:");
 
         long timer = System.nanoTime();
-        quicksort(quickList,0,iloscLiczb);
+        quickList =  quickSort(quickList);
+    
 
         System.out.println("\tRandomowa kolejność: " + (System.nanoTime()-timer));
 
         timer = System.nanoTime();
-        quicksort(quickList,0,iloscLiczb);
+        quickList =  quickSort(quickList);
 
         System.out.println("\tRosnąca kolejność: "+ (System.nanoTime()-timer));
 
         Collections.reverse(mergeList);
 
         timer = System.nanoTime();
-        quicksort(quickList,0,iloscLiczb);
+        quickList =  quickSort(quickList);
 
         System.out.println("\tMalejąca kolejność: "+(System.nanoTime()-timer));
     }
     
-    private static int partQuick(ArrayList<Integer> array, int pierwszy, int ostatni)
-    {
-        Random random = new Random();
-        int rand = pierwszy+random.nextInt(ostatni-pierwszy);
-        
-        int tmp = array.get(pierwszy);
-        array.set(pierwszy, array.get(rand));
-        array.set(rand, tmp);
-        
+    public static ArrayList<Integer> quickSort(ArrayList<Integer> lista){
+        Random rand = new Random();
+       
+        ArrayList<Integer> mniejsze = new ArrayList<>();
 
-        int value = array.get(pierwszy);
-        int indexBigger = pierwszy+1, indexLower = ostatni-1;
-        while (indexBigger < indexLower){
-            while(indexBigger <= indexLower && array.get(indexBigger) <= value){
-                indexBigger++;
-            }
-            while(array.get(indexLower) > value){
-                indexLower--;
-            }
+        if(lista.size() == 0){
+            return lista;
+        }
+        int pivotIndex = rand.nextInt(0,lista.size());
+        Integer pivot;
+        ArrayList<Integer> wieksze = new ArrayList<>();
 
-            if(indexBigger < indexLower){
-                tmp = array.get(indexBigger);
-                array.set(indexBigger, array.get(indexLower));
-                array.set(indexLower, tmp);
-            }
-
-
+        if(lista.size() == 1){
+            pivot = lista.get(0);
+            return lista;
 
         }
-        tmp = array.get(pierwszy);
-        array.set(pierwszy, array.get(indexLower));
-        array.set(indexLower, tmp);        
-        return indexLower;
+
+        pivot = lista.remove(pivotIndex);
+        for(Integer x : lista){
+            if(x > pivot){
+                wieksze.add(x);
+            }
+            else if(x <= pivot){
+                mniejsze.add(x);
+            }
+        }
+        return mergeQuick(quickSort(mniejsze), pivot, quickSort(wieksze));
     }
 
-    private static void quicksort(ArrayList<Integer> array, int start, int koniec)
-    {
-        if (koniec-start > 1)
-        {
-            int split = partQuick(array, start, koniec);
-            quicksort(array, start, split);
-            quicksort(array, split+1, koniec);
+    public static ArrayList<Integer> mergeQuick(ArrayList<Integer> mniejsze, Integer pivot, ArrayList<Integer> wieksze){
+        ArrayList<Integer> tmpList = new ArrayList<>();
+
+        for(Integer i: mniejsze){
+            tmpList.add(i);
         }
+        tmpList.add(pivot);
+
+        for(Integer i: wieksze){
+            tmpList.add(i);
+        }
+
+        return tmpList;
     }
     //heap sort
 
@@ -254,7 +255,6 @@ public class main {
         heapSor(heapList);   
 
         System.out.println("\tMalejąca kolejność: "+(System.nanoTime()-timer));
-
     }
 
     public static void heapSor(ArrayList<Integer> lista){
@@ -357,6 +357,7 @@ public class main {
         insertSort();
         selectSort();
         mergeSortExecute();
+
         quickSortExecute();
         heapSortExecute();
     }

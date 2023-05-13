@@ -39,6 +39,17 @@ public class Alru {
 
         System.out.println("Pages errors alru: "+numberOfPagesErrors);
     }
+
+    private void fixChances(Page page){
+        for(int x = 0; x<ram.length;x++){
+            Page tmpPage = chanceQueue.remove();
+            if(page.getNumberOfPage() == tmpPage.getNumberOfPage()){
+                tmpPage.resetTimeInRam();
+            }
+            chanceQueue.add(tmpPage);
+        }
+    }
+
     private void increaseTimeInRam(){
         for(int x = 0; x < ram.length; x++){
             if(ram[x] != null){
@@ -55,7 +66,6 @@ public class Alru {
                 break;
             }
         }
-
 
         if(isNull){
             // jesli sa same nulle
@@ -105,6 +115,7 @@ public class Alru {
         for(int x = 0; x < ram.length; x++){
             if(ram[x] != null){
                 if(ram[x].getNumberOfPage() == page.getNumberOfPage()){
+                    fixChances(page);
                     return true;
                 }
             }

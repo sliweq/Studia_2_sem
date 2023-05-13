@@ -66,7 +66,8 @@ public class Opt {
                 //sprawdzanie odelglosci
                 int[] pagesDistances = new int[ram.length];
                 for(int x = 0; x < pagesDistances.length; x++){
-                    pagesDistances[x] = divinerMaciej(ram[x]);
+                    int tmpLocation = fifoList.indexOf(page);
+                    pagesDistances[x] = divinerMaciej(ram[x],tmpLocation);
                 }
                 
                 //wybieranie którego tzreba wywalić
@@ -82,15 +83,14 @@ public class Opt {
         }
     }
     
-    private int divinerMaciej(Page page){
+    private int divinerMaciej(Page page, int tmpLocation){
 
         int tmp = fifoList.size();
         int distance = 0; 
 
-        int x = fifoList.indexOf(page);
+        int x = tmpLocation;
 
         for(int i = x + 1; i < tmp; i++){
-
             if(fifoList.get(i).getNumberOfPage() == page.getNumberOfPage()){
                 return distance;
             }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Fifo {
 
+    //TO nie jest fifo tylko lru
+
     private ArrayList<Page> fifoList;
 
     private int numberOfFrames; 
@@ -29,7 +31,7 @@ public class Fifo {
 
         }
 
-        System.out.println("Pages errors fifo: "+numberOfPagesErrors);
+        System.out.println("Pages errors LRU: "+numberOfPagesErrors);
     }
     private void increaseTimeInRam(){
         for(int x = 0; x < ram.length; x++){
@@ -64,8 +66,6 @@ public class Fifo {
             //jesli nie ma null
 
             //sprawdzeni czy jest ta strona
-
-
             numberOfPagesErrors +=1;
                 
             int longestInRamPage = 0;
@@ -93,6 +93,7 @@ public class Fifo {
         for(int x = 0; x < ram.length; x++){
             if(ram[x] != null){
                 if(ram[x].getNumberOfPage() == page.getNumberOfPage()){
+                    ram[x].resetTimeInRam();
                     return true;
                 }
             }
