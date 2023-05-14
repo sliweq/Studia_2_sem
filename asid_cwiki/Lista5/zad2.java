@@ -5,114 +5,78 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class zad2 {
-    
-    public static ArrayList<Integer> quickSort(ArrayList<Integer> lista){
+
+    static Integer[] array;
+
+    private static void createLists(int amount){
         Random rand = new Random();
+        array = new Integer[amount];
 
-        if(lista.size() > 100 ){
-            int pivotIndex;
-            int pivot1Index = rand.nextInt(0,lista.size());
-            int pivot2Index = rand.nextInt(0,lista.size());
-            while(pivot2Index == pivot1Index){
-                pivot2Index = rand.nextInt(0,lista.size());
-            }
-            int pivot3Index = rand.nextInt(0,lista.size());
-            while(pivot3Index == pivot1Index && pivot3Index == pivot2Index ){
-                pivot3Index = rand.nextInt(0,lista.size());
-            }   
-
-            // ArrayList<Integer> tmp = new ArrayList<>();
-            // tmp.add(lista.get(pivot1Index));
-            // tmp.add(lista.get(pivot2Index));
-            // tmp.add(lista.get(pivot3Index));
-            // pivotIndex = lista.indexOf(Collections.max(tmp));
-
-            if(lista.get(pivot3Index) >= lista.get(pivot1Index) && lista.get(pivot3Index) >= lista.get(pivot2Index)){
-                if(lista.get(pivot1Index) >= lista.get(pivot2Index)){
-                    pivotIndex = pivot2Index;
-                }
-                else{
-                    pivotIndex = pivot1Index;
-                }
-            }
-            else if(lista.get(pivot2Index) >= lista.get(pivot1Index) && lista.get(pivot2Index) >= lista.get(pivot3Index)){
-                if(lista.get(pivot1Index) >= lista.get(pivot3Index)){
-                    pivotIndex = pivot3Index;
-                }
-                else{
-                    pivotIndex = pivot1Index;
-                }
-            }
-            else{
-                if(lista.get(pivot2Index) >= lista.get(pivot3Index)){
-                    pivotIndex = pivot3Index;
-                }
-                else{
-                    pivotIndex = pivot2Index;
-                }
-            }
-            ArrayList<Integer> mniejsze = new ArrayList<>();
-            Integer pivot;
-        ArrayList<Integer> wieksze = new ArrayList<>();
-
-        if(lista.size() == 1){
-            pivot = lista.get(0);
-            return lista;
-            //return mergeQuick(mniejsze, pivot, wieksze);
+        for(int x = 0; x < amount; x++ ){
+            array[x] = rand.nextInt(0,amount);
         }
-        
-        pivot = lista.remove(pivotIndex);
-        for(Integer x : lista){
-            if(x > pivot){
-                wieksze.add(x);
-            }
-            else if(x <= pivot){
-                mniejsze.add(x);
-            }
-        }
-            return mergeQuick(quickSort(mniejsze), pivot, quickSort(wieksze));
+    }
+    
+    
+    private static void quickSort(Integer[] array, int start, int end){
+        if(end-start> 0){
+            int partition = partition(array, start, end);
+            quickSort(array, start, partition-1);
+            quickSort(array, partition + 1, end);
 
         }
-
-        ArrayList<Integer> mniejsze = new ArrayList<>();
-        if(lista.size() == 0){
-            return lista;
-        }
-        int pivotIndex = rand.nextInt(0,lista.size());
-        Integer pivot;
-        ArrayList<Integer> wieksze = new ArrayList<>();
-
-        if(lista.size() == 1){
-            pivot = lista.get(0);
-            return lista;
-            //return mergeQuick(mniejsze, pivot, wieksze);
-        }
-        
-        pivot = lista.remove(pivotIndex);
-        for(Integer x : lista){
-            if(x > pivot){
-                wieksze.add(x);
-            }
-            else if(x <= pivot){
-                mniejsze.add(x);
-            }
-        }
-        return mergeQuick(quickSort(mniejsze), pivot, quickSort(wieksze));
     }
 
-    public static ArrayList<Integer> mergeQuick(ArrayList<Integer> mniejsze, Integer pivot, ArrayList<Integer> wieksze){
-        ArrayList<Integer> tmpList = new ArrayList<>();
+    private static int partition(Integer[] array, int start, int end){
+        Random rand = new Random();
+        int pivot = 0 ; // = rand.nextInt(start,end+1);
 
-        for(Integer i: mniejsze){
-            tmpList.add(i);
+        if(end-start >=100){
+            int tmp1 = rand.nextInt(start,end+1);
+            int tmp2 = rand.nextInt(start,end+1);
+            while(tmp2 == tmp1){
+                tmp2= rand.nextInt(start,end+1);
+            }
+            int tmp3 = rand.nextInt(start,end+1);
+            while(tmp3 == tmp1 || tmp3 == tmp1){
+                tmp3 = rand.nextInt(start,end+1);
+            }
+            Integer[] tmpArray= {tmp1,tmp2,tmp3};
+            quickSort(tmpArray, 0, 2);
+            System.out.println(tmpArray[0]+" " + tmpArray[1]+" " + tmpArray[2]);
+             
+            pivot = tmpArray[1];
         }
-        tmpList.add(pivot);
-
-        for(Integer i: wieksze){
-            tmpList.add(i);
+        else{
+            pivot = rand.nextInt(start,end+1);
         }
 
-        return tmpList;
+        swap(array,pivot, end);
+        // high +1 to nowy pivot
+        int lower = start;
+        int bigger = end;
+        while(bigger>=lower){
+            if(array[bigger] >= array[end]){
+                bigger-=1;
+            }else{
+                swap(array, lower, bigger);
+                lower+=1;
+            }
+        }
+        swap(array, bigger+1, end);
+        return bigger+1; 
     }
+
+    private static void swap(Integer[] array, int indOne, int indTwo){
+        int tmp = array[indOne];
+        array[indOne] = array[indTwo];
+        array[indTwo] =tmp;
+    }
+
+    public static void main(String[] args) {
+        createLists(1010);
+        quickSort(array, 0, array.length-1);
+    }   
+
     
 }
