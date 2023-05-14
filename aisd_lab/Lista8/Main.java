@@ -5,6 +5,33 @@ import java.util.Random;
 
 public class Main {
 
+    public int[] k5;
+    public int[] k10;
+    public int[] k50;
+    public int[] k100;
+
+    public void stworzListy(){
+        Random rand = new Random();
+        k5 = new int[5000];
+        k10 = new int[10000];
+        k50 = new int[50000];
+        k100 = new int[100000];
+
+        for(int x = 0; x < 5000; x++){
+            k5[x] = rand.nextInt(0,5000);
+        }
+        for(int x = 0; x < 10000; x++){
+            k10[x] = rand.nextInt(0,10000);
+        }
+        for(int x = 0; x < 50000; x++){
+            k50[x] = rand.nextInt(0,50000);
+        }
+        for(int x = 0; x < 100000; x++){
+            k100[x] = rand.nextInt(0,100000);
+        }
+    }
+
+
     public int[] stworzListe(int limit){
         int[] tmp = new int[limit];
 
@@ -78,7 +105,7 @@ public class Main {
 
     public void Wersja1(){
         int limit = 5000;
-        int[] oryginal = stworzListe(limit);
+        int[] oryginal = k5;
         int[] tablica = new int[oryginal.length];
 
         System.out.println("Werjsa 1");
@@ -91,32 +118,32 @@ public class Main {
         
         long timer = System.nanoTime();
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         System.out.println("Dla 10000");
         limit = 10000;
 
-        oryginal = stworzListe(limit);
+        oryginal = k10;
         tablica = new int[oryginal.length];
 
         odstep = stworzCiagA(limit);
@@ -124,32 +151,32 @@ public class Main {
         
         timer = System.nanoTime();
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         System.out.println("Dla 50000");
         limit = 50000;
 
-        oryginal = stworzListe(limit);
+        oryginal = k50;
         tablica = new int[oryginal.length];
 
         odstep = stworzCiagA(limit);
@@ -157,32 +184,32 @@ public class Main {
         
         timer = System.nanoTime();
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         System.out.println("Dla 100000");
         limit = 100000;
 
-        oryginal = stworzListe(limit);
+        oryginal = k100;
         tablica = new int[oryginal.length];
 
         odstep = stworzCiagA(limit);
@@ -190,34 +217,34 @@ public class Main {
         
         timer = System.nanoTime();
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja1.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
 
     }
     
     public void Wersja2(){
         int limit = 5000;
-        int[] oryginal = stworzListe(limit);
+        int[] oryginal = k5;
         int[] tablica = new int[oryginal.length];
 
         System.out.println("Werjsa 2");
@@ -230,32 +257,32 @@ public class Main {
         
         long timer = System.nanoTime();
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         System.out.println("Dla 10000");
         limit = 10000;
 
-        oryginal = stworzListe(limit);
+        oryginal = k10;
         tablica = new int[oryginal.length];
 
         odstep = stworzCiagA(limit);
@@ -263,32 +290,32 @@ public class Main {
         
         timer = System.nanoTime();
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         System.out.println("Dla 50000");
         limit = 50000;
 
-        oryginal = stworzListe(limit);
+        oryginal = k50;
         tablica = new int[oryginal.length];
 
         odstep = stworzCiagA(limit);
@@ -296,32 +323,32 @@ public class Main {
         
         timer = System.nanoTime();
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         System.out.println("Dla 100000");
         limit = 100000;
 
-        oryginal = stworzListe(limit);
+        oryginal = k100;
         tablica = new int[oryginal.length];
 
         odstep = stworzCiagA(limit);
@@ -329,32 +356,32 @@ public class Main {
         
         timer = System.nanoTime();
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja2.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
     }
 
     public void Wersja3(){
         int limit = 5000;
-        int[] oryginal = stworzListe(limit);
+        int[] oryginal = k5;
         int[] tablica = new int[oryginal.length];
 
         System.out.println("Werjsa 3");
@@ -367,32 +394,32 @@ public class Main {
         
         long timer = System.nanoTime();
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         System.out.println("Dla 10000");
         limit = 10000;
 
-        oryginal = stworzListe(limit);
+        oryginal = k10;
         tablica = new int[oryginal.length];
 
         odstep = stworzCiagA(limit);
@@ -400,32 +427,32 @@ public class Main {
         
         timer = System.nanoTime();
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         System.out.println("Dla 50000");
         limit = 50000;
 
-        oryginal = stworzListe(limit);
+        oryginal = k50;
         tablica = new int[oryginal.length];
 
         odstep = stworzCiagA(limit);
@@ -433,32 +460,32 @@ public class Main {
         
         timer = System.nanoTime();
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         System.out.println("Dla 100000");
         limit = 100000;
 
-        oryginal = stworzListe(limit);
+        oryginal = k100;
         tablica = new int[oryginal.length];
 
         odstep = stworzCiagA(limit);
@@ -466,35 +493,34 @@ public class Main {
         
         timer = System.nanoTime();
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagB(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagC(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
 
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
 
         odstep = stworzCiagD(limit);
         System.arraycopy(oryginal, 0, tablica, 0, limit);
         timer = System.nanoTime();
         Wersja3.execute(odstep, tablica);
-        System.out.println((System.nanoTime()-timer)/1000000000.0);
+        System.out.println((System.nanoTime()-timer)/1000000.0);
     }
 
     public static void main(String[] args){
         Main m = new Main();
+        m.stworzListy();
         m.Wersja1();
         m.Wersja2();
         m.Wersja3();
-
     }
-
 }

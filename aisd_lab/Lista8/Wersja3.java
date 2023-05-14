@@ -10,12 +10,14 @@ public class Wersja3 {
             int index = 0;
             int startindex = 0;
 
-            while(startindex+odstep[tmp] < tablica.length){
-                int iteracje = (int)Math.ceil(((tablica.length)*1.0)/odstep[tmp]);
+            while(startindex<odstep[tmp]){
+
+                int iteracje = (int)Math.ceil(((tablica.length-startindex)*1.0)/odstep[tmp]);
+
                 for(int x = 0; x< iteracje-1 ; x++){
-                    for(int i = startindex; i+odstep[tmp] < tablica.length ; i+= odstep[tmp]){
-                        if(tablica[index] > tablica[index+odstep[tmp]]){
-                            zamien(tablica, index, index+odstep[tmp]);
+                    for(int i = startindex; i+odstep[tmp] < (tablica.length-(x*odstep[tmp])) ; i+= odstep[tmp]){
+                        if(tablica[i] > tablica[i+odstep[tmp]]){
+                            zamien(tablica, i, i+odstep[tmp]);
                         }
                     }
                 }
