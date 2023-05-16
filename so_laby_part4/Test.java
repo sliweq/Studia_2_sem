@@ -6,65 +6,114 @@ import java.util.Random;
 import so_laby_part3.Page;
 
 public class Test {
+    // parametry wielkosciowe jezei chodzi o procesy
+    private int minSizeOfProcesses = 20;
+    private int maxSizeOfProcesses = 75;
 
-    private int numberOfProcesses;
+    private int maxSizeOfReferences = 15_000;
+    private int minSizeOfReferences = 5_000;
+
+
+    private int numberOfProcesses = 10;
     private int ramSize = 100;
 
-    private int[] sizeOfProcesses;
+    private int[] sizeOfProcesses = new int[numberOfProcesses];
 
-    private ArrayList<Page> allPages;
-    private ArrayList<Page>[] allProcesses;
-    //private ArrayList<Page> 
+    private int[] amountOfReferences = new int[numberOfProcesses];
+
+    private ArrayList<ArrayList<Page>> rawArray = new ArrayList<ArrayList<Page>>();
+
+    private ArrayList<Page> finalArray = new ArrayList<>();
+
 
     public Test(){
-        allProcesses = new ArrayList[numberOfProcesses];
         Random rand = new Random();
 
-        //wielkosc poszczegolnych procesow
-        for(int i = 0; i < numberOfProcesses; i ++){
-            sizeOfProcesses[i] = rand.nextInt();
+        // losowanie wielkości procesów, ilosci unikalcnych stron dla każdego procesu 
+        for(int x = 0; x < numberOfProcesses; x++){
+            //zakres wielkosci
+            sizeOfProcesses[x] = rand.nextInt(minSizeOfProcesses,maxSizeOfProcesses);
+            //ilosc referencji czy odwolan do poszczegolnych procesow
+            amountOfReferences[x] = rand.nextInt(minSizeOfReferences, maxSizeOfReferences);
         }
 
+        createProcesses();
 
-        //dodawanie do poszczególnych procesów
+        while(rawArray.size() != 0){
+
+            int randomProcess = rand.nextInt(0,rawArray.size());
+
+            finalArray.add(rawArray.get(randomProcess).remove(0));
+            
+            if(rawArray.get(randomProcess).size() == 0){
+                rawArray.remove(randomProcess);
+            }
+
+        }
+        
+    }
+
+    private void createProcesses(){
+        // tworzenie procesów
+
         for(int x = 0; x < numberOfProcesses; x++){
+            rawArray.add(new ArrayList<>());
 
+            int numberOfPages = sizeOfProcesses[x];
+            
             boolean locality = false;
             int localityMeter = 0;
             int localityLocation = 0; 
-    
-            int maxLocal = 9;
-                
-            for(int i= 0; i < sizeOfProcesses[x]; i++){
+
+            int maxLocal = 10;
+
+            Random rand = new Random();
+        
+            for(int i= 0; i < amountOfReferences[x]; i++){
                 if(locality){
                     //dodawanie 
                     // w lokalnosci
-    
+
                     int tmp_local = rand.nextInt(1,maxLocal);
-    
+
                     if(localityLocation-tmp_local<0){
                         int randomPage = rand.nextInt(Math.max(0, localityLocation-tmp_local),localityLocation+tmp_local);
-                        allProcesses[x].add(new Page(randomPage));
-                        //z zakresu od 0 do 4
+                        Page tmpPage = new Page(randomPage);
+
+                        tmpPage.setNumberOfProcess(x);
+                        rawArray.get(x).add(tmpPage);
+
+
+
+                        
                     }
-                    else if(localityLocation+tmp_local > sizeOfProcesses[x]-1){
-                        int randomPage = rand.nextInt(localityLocation-tmp_local,Math.min(sizeOfProcesses[x]-1, localityLocation+tmp_local));
-                        allProcesses[x].add(new Page(randomPage));
-    
+                    else if(localityLocation+tmp_local > numberOfPages-1){
+                        int randomPage = rand.nextInt(localityLocation-tmp_local,Math.min(numberOfPages-1, localityLocation+tmp_local));
+                        Page tmpPage = new Page(randomPage);
+
+                        tmpPage.setNumberOfProcess(x);
+                        rawArray.get(x).add(tmpPage);
+
+
+
                     }
                     else{
-                        // System.out.println(tmp_local);
-                        // System.out.println((localityLocation -tmp_local)+" "+ (localityLocation+tmp_local));
                         int randomPage = rand.nextInt(localityLocation -tmp_local, localityLocation+tmp_local);
-                        allProcesses[x].add(new Page(randomPage));
+                        Page tmpPage = new Page(randomPage);
+
+                        tmpPage.setNumberOfProcess(x);
+                        rawArray.get(x).add(tmpPage);
+
+
+
                     }
-    
+
                     localityMeter -=1;
                     if(localityMeter <=0 ){
                         locality = false;
                         localityMeter = 0;
                     }
-    
+
                 }
                 else{
                     double localityRate = Math.random();
@@ -72,28 +121,41 @@ public class Test {
                     if(localityRate <= 0.1){
                         locality = true;
                         localityMeter = 10;
-    
+
                         
-                        int randomPage = rand.nextInt(0,sizeOfProcesses[x]);
-    
+                        int randomPage = rand.nextInt(0,numberOfProcesses);
+
                         localityLocation = randomPage;
-    
-                        allProcesses[x].add(new Page(randomPage));
+
+
+                        Page tmpPage = new Page(randomPage);
+
+                        tmpPage.setNumberOfProcess(x);
+                        rawArray.get(x).add(tmpPage);
+
+
                         
                         localityMeter -= 1;
-
                     }
                     else{
                         //dodanie randomowej strony chyba rand int;
-                        int randomPage = rand.nextInt(0,sizeOfProcesses[x]);
-                        allProcesses[x].add(new Page(randomPage));                    }
+                        int randomPage = rand.nextInt(0,numberOfPages);
+                        Page tmpPage = new Page(randomPage);
+
+                        tmpPage.setNumberOfProcess(x);
+                        rawArray.get(x).add(tmpPage);
+
+                    }
                 }
             }
-            
+
+
         }
+        
     }
    
     public static void main(String[] args){
+        Test t = new Test();
     }
     
 }

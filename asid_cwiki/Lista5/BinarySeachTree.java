@@ -31,14 +31,16 @@ public class BinarySeachTree {
             return rightChild;
         }
         
+
+
         //preorder root, lewy, prawy
         public void preOrder(){
-            System.out.println(root.key);
-            if(root.getLeftChild() != null){
-                root.getLeftChild().preOrder();
+            System.out.println(key);
+            if(leftChild != null){
+                leftChild.preOrder();
             }
-            if(root.getRightChild() != null){
-                root.getRightChild().preOrder();
+            if(rightChild != null){
+                rightChild.preOrder();
             }
     
             
@@ -46,22 +48,22 @@ public class BinarySeachTree {
         
         //lewy, prawy, root
         public void postOrder(){
-            if(root.getLeftChild() != null){
-                root.getLeftChild().preOrder();
+            if(leftChild != null){
+                leftChild.preOrder();
             }
-            if(root.getRightChild() != null){
-                root.getRightChild().preOrder();
+            if(rightChild != null){
+                rightChild.preOrder();
             }
-            System.out.println(root.key);
+            System.out.println(key);
         }
     
         public void inOrder(){
-            if(root.getLeftChild() != null){
-                root.getLeftChild().preOrder();
+            if(leftChild != null){
+                leftChild.preOrder();
             }
-            System.out.println(root.key);
-            if(root.getRightChild() != null){
-                root.getRightChild().preOrder();
+            System.out.println(key);
+            if(rightChild != null){
+                rightChild.preOrder();
             }
         }
     }
@@ -77,7 +79,7 @@ public class BinarySeachTree {
             Node y = null;
             while(x != null){
                 y = x;
-                if(root.getKey() > number){
+                if(x.getKey() > number){
                     x = x.leftChild;
                 }
                 else{
@@ -91,6 +93,65 @@ public class BinarySeachTree {
                 y.setRightChild(new Node(number));
             }
         }
+    }
+
+    public Node treeSearch(Node node,int x){
+        if(node.key == x){
+            return node;
+        }
+        else{
+            if(root.key > x){
+                return treeSearch(node.leftChild, x);
+            }
+            else{
+                return treeSearch(node.rightChild, x);
+            }
+        }
+    }
+
+    public void remove(int key){
+        root = remove(root, key);
+    }
+    
+    private Node remove(Node node, int key){
+        if(node == null){
+            return node;
+        }
+        else{
+            if(node.key >key){
+                node.setLeftChild(remove(node.leftChild, key));
+            }
+            else if(node.key < key){
+                node.setRightChild(remove(node.rightChild, key));
+            }
+            else if(node.getRightChild() == null){
+                return node.getLeftChild();
+            } else if(node.getLeftChild() == null){
+                return node.getRightChild();
+            }
+
+            
+
+
+
+        }
+        
+        return root;
+    }
+    public void ta(){
+        minimalValue(root);
+    }
+
+    public int minimalValue(Node node){
+        System.out.println(node.key);
+        int tmp = node.key;
+        while(node.getLeftChild()!= null){
+            tmp = node.getLeftChild().key;
+            node = node.getLeftChild();
+            System.out.println(node.key);
+
+        }
+        return tmp;
     }
 
     public void countNodes(){}
