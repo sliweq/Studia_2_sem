@@ -52,7 +52,6 @@ public class zad2 {
         }
 
         swap(array,pivot, end);
-        // high +1 to nowy pivot
         int lower = start;
         int bigger = end;
         while(bigger>=lower){

@@ -81,7 +81,6 @@ public class zad1 {
         Random rand = new Random();
         int tmp = rand.nextInt(start,end+1);
         swap(array,tmp, end);
-        // high +1 to nowy pivot
         int lower = start;
         int bigger = end;
         while(bigger>=lower){
