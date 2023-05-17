@@ -130,16 +130,12 @@ public class BinarySeachTree {
                 return node.getRightChild();
             }
 
-            
-
-
+            root.key = minimalValue(node.getRightChild());
+            root.rightChild = remove(node.rightChild, root.key);
 
         }
         
         return root;
-    }
-    public void ta(){
-        minimalValue(root);
     }
 
     public int minimalValue(Node node){
@@ -154,11 +150,66 @@ public class BinarySeachTree {
         return tmp;
     }
 
-    public void countNodes(){}
+    public int getNodeAmount(){
+        return getNodeAmount(root);
+    }
 
-    public void treeHeight(){}
+    private int getNodeAmount(Node root){
+        int amount = 1; 
+        if(root.getLeftChild() != null){
+            amount += getNodeAmount(root.getLeftChild());
+        }
+        if(root.getRightChild() != null){
+            amount += getNodeAmount(root.getRightChild());
+        }
+        return amount;
+    }
 
-    public void evenKeysNods(){}
+    public int getTreeHeight(){
+        return getTreeHeight(root);
+    }
+    
+    private int getTreeHeight(Node root){
+        int height = 1;
+        int leftH = 0;
+        int rightH = 0;
+        if(root.getLeftChild() != null){
+            leftH = getTreeHeight(root.getLeftChild());
+        }
+        if(root.getRightChild() != null){
+            rightH = getTreeHeight(root.getRightChild());
+        }
+        if(leftH > rightH){
+            return height + leftH;
+        }
+        return height+ rightH;
+    }
+
+    public int oneChildNodes(){
+        return oneChildNodes(root);
+    }
+
+    private int oneChildNodes(Node root){
+        int amount = 0; 
+        if(root.getLeftChild() == null){
+            if(root.getRightChild() == null){
+                return 0;
+            }
+            else{
+                amount +=1;
+                amount += oneChildNodes(root.getRightChild());
+                return amount;
+            }
+        }else if(root.getRightChild() == null){
+            amount +=1;
+            amount += oneChildNodes(root.getLeftChild());
+            return amount;
+        }else{
+            amount+= oneChildNodes(root.getLeftChild());
+            amount+= oneChildNodes(root.getRightChild());
+            return amount;
+        }
+    }
 
     public void inOrder(){root.inOrder();}
     
