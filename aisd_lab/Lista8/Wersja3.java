@@ -6,14 +6,14 @@ public class Wersja3 {
         int tmp = odstep.length-1;
 
         while(tmp > 0){
-            //
-            int index = 0;
             int startindex = 0;
-
-            while(startindex<odstep[tmp]){
-
+            //tu sie zaczyna bubble/shell sort
+            while(startindex<odstep[tmp] && startindex+ odstep[tmp] < tablica.length ){
+                // iteracje to jest po prostu ilosc elementow po ktorych mamy iterowac
                 int iteracje = (int)Math.ceil(((tablica.length-startindex)*1.0)/odstep[tmp]);
 
+                //tu jest powiedzmy zwykły bubble sort
+                
                 for(int x = 0; x< iteracje-1 ; x++){
                     for(int i = startindex; i+odstep[tmp] < (tablica.length-(x*odstep[tmp])) ; i+= odstep[tmp]){
                         if(tablica[i] > tablica[i+odstep[tmp]]){
@@ -22,9 +22,8 @@ public class Wersja3 {
                     }
                 }
                 startindex +=1;
-                index = startindex;
-                
             }
+
             tmp -=1;
         }
 

@@ -46,7 +46,8 @@ public class Main {
     //Tworzenie dla poprawnego shella
     public Integer[] stworzCiagA(int limit){
         ArrayList<Integer> tmpTable = new ArrayList<>();
-        int tmp = 0;            tmp = (3*tmp)+1;
+        int tmp = 0;            
+        tmp = (3*tmp)+1;
         while(tmp< limit){
             tmpTable.add(tmp);  
             tmp = (3*tmp)+1;
@@ -521,6 +522,6 @@ public class Main {
         m.stworzListy();
         m.Wersja1();
         m.Wersja2();
-        m.Wersja3();
+        //m.Wersja3();
     }
 }

@@ -7,7 +7,7 @@ public class Wersja2 {
 
         while(tmp > 0){
             
-            //insert sort ale zrobiony pod algorytm shella
+            // //insert sort ale zrobiony pod algorytm shella
             for(int x = odstep[tmp]; x < tablica.length; x+=1){
 
                 int tmpNumber = tablica[x];
@@ -20,6 +20,8 @@ public class Wersja2 {
 
                 tablica[tmpIndex+odstep[tmp]] = tmpNumber;
             }
+
+
             tmp -=1;
         }
 
