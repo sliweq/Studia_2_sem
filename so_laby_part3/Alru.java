@@ -30,9 +30,8 @@ public class Alru {
             Page page = fifoList.get(currentPage);
             if(!checkRam(page)){
                 addToRam(page);
-            }
-            else{
-                //zaaktualizowanie odpowiedniej strony
+            }else{
+                fixChances(page);
             }
             increaseTimeInRam();
         }

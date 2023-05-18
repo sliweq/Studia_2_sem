@@ -1,6 +1,15 @@
 package asid_cwiki.Lista5;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 public class BinarySeachTree {
+
+    private Queue<Node> queue;
 
     class Node{
         private int key;
@@ -13,6 +22,10 @@ public class BinarySeachTree {
 
         public int getKey(){
             return key;
+        }
+
+        public void setKey(int key ){
+            this.key = key;
         }
 
         public void setLeftChild(Node left){
@@ -35,35 +48,37 @@ public class BinarySeachTree {
 
         //preorder root, lewy, prawy
         public void preOrder(){
-            System.out.println(key);
+            System.out.print(key);            
+            System.out.print(" ");
             if(leftChild != null){
                 leftChild.preOrder();
             }
             if(rightChild != null){
                 rightChild.preOrder();
             }
-    
-            
         }
         
         //lewy, prawy, root
         public void postOrder(){
             if(leftChild != null){
-                leftChild.preOrder();
+                leftChild.postOrder();
             }
             if(rightChild != null){
-                rightChild.preOrder();
+                rightChild.postOrder();
             }
-            System.out.println(key);
+            System.out.print(key);
+            System.out.print(" ");
+
         }
     
         public void inOrder(){
             if(leftChild != null){
-                leftChild.preOrder();
+                leftChild.inOrder();
             }
-            System.out.println(key);
+            System.out.print(key);
+            System.out.print(" ");
             if(rightChild != null){
-                rightChild.preOrder();
+                rightChild.inOrder();
             }
         }
     }
@@ -71,6 +86,45 @@ public class BinarySeachTree {
     Node root; 
     public BinarySeachTree(){root = null;}
 
+    //wyswietl po poziomach drzewa
+    public void printBSTbyLevels(){
+        queue = new LinkedList<>();
+        queue.add(root);
+        Node tmpNode = queue.peek();
+        while(!queue.isEmpty()){ 
+            System.out.print(tmpNode.getKey() + " ");
+   
+            if(tmpNode.getLeftChild() != null){
+                queue.add(tmpNode.getLeftChild());
+            }
+            if(tmpNode.getRightChild() != null){
+                queue.add(tmpNode.getRightChild());
+            }
+            queue.remove();
+            tmpNode = queue.peek();
+        }
+        System.out.println();
+
+    }
+    
+    //zapis do pliku
+    public void writeToFile(PrintWriter write) throws FileNotFoundException{
+        zapisDoPliku(write,root);
+        write.close();
+    }
+
+    private void zapisDoPliku(PrintWriter write, Node node) throws FileNotFoundException{
+        write.write(String.valueOf(node.getKey())+"\n");
+
+        if(node.getLeftChild() != null){
+            zapisDoPliku(write, node.getLeftChild());
+        }
+        if(node.getRightChild() != null){
+            zapisDoPliku(write, node.getRightChild());
+        }
+    }
+
+    //wstawianie
     public void insert(int number){
         if(root == null){
             root = new Node(number);
@@ -80,10 +134,10 @@ public class BinarySeachTree {
             while(x != null){
                 y = x;
                 if(x.getKey() > number){
-                    x = x.leftChild;
+                    x = x.getLeftChild();
                 }
                 else{
-                    x = x.rightChild;
+                    x = x.getRightChild();
                 }
             }
             if(y.getKey() > number){
@@ -95,6 +149,7 @@ public class BinarySeachTree {
         }
     }
 
+    //wyszukiwanie elementu
     public Node treeSearch(Node node,int x){
         if(node.key == x){
             return node;
@@ -109,6 +164,7 @@ public class BinarySeachTree {
         }
     }
 
+    //usuwanie
     public void remove(int key){
         root = remove(root, key);
     }
@@ -118,38 +174,62 @@ public class BinarySeachTree {
             return node;
         }
         else{
-            if(node.key >key){
+            if(node.getKey() >key){
                 node.setLeftChild(remove(node.leftChild, key));
             }
-            else if(node.key < key){
-                node.setRightChild(remove(node.rightChild, key));
+            else if(node.getKey() < key){
+                node.setRightChild(remove(node.rightChild, key));                
             }
-            else if(node.getRightChild() == null){
-                return node.getLeftChild();
-            } else if(node.getLeftChild() == null){
-                return node.getRightChild();
+            else{
+                if(node.getLeftChild() == null){
+                    return node.getRightChild();
+                }else if(node.getRightChild() == null){
+                    return node.getLeftChild();
+                }
+                // sa oba dzieci
+                //ustawienie nastepnika
+                //cos to nie dziala z 20 
+                node.setKey(next(node));
+
+                //usuwanie tego gościa
+                node.setRightChild(remove(node.getRightChild(), node.getKey()));
+                
             }
 
-            root.key = minimalValue(node.getRightChild());
-            root.rightChild = remove(node.rightChild, root.key);
+            // else if(node.getLeftChild() != null && node.getRightChild() != null){
 
+            //     node.setKey(minimalValue(node.getRightChild()).getKey());
+            //     remove(node.getRightChild(), key);
+
+            // }
+            // else if(node.getLeftChild() != null){
+            //     node = node.getLeftChild();
+            // }
+            
+            
+            return node;
         }
-        
-        return root;
     }
 
-    public int minimalValue(Node node){
-        System.out.println(node.key);
-        int tmp = node.key;
-        while(node.getLeftChild()!= null){
-            tmp = node.getLeftChild().key;
-            node = node.getLeftChild();
-            System.out.println(node.key);
-
+    public int next(Node node){
+        Node tmpNode = node.getRightChild();
+        while(tmpNode.getLeftChild() != null){
+            tmpNode = tmpNode.getLeftChild();
         }
-        return tmp;
+
+        return tmpNode.getKey(); 
     }
 
+    public Node minimalValue(Node node){
+        if(node!=null){
+            while(node.getLeftChild() != null){
+                node = node.getLeftChild();
+            }
+        }
+        return node;
+    }
+
+    //ilsoc wezlow
     public int getNodeAmount(){
         return getNodeAmount(root);
     }
@@ -165,6 +245,7 @@ public class BinarySeachTree {
         return amount;
     }
 
+    //wysokosc drzewa
     public int getTreeHeight(){
         return getTreeHeight(root);
     }
@@ -185,6 +266,7 @@ public class BinarySeachTree {
         return height+ rightH;
     }
 
+    // wezly z jednym dzieckiem
     public int oneChildNodes(){
         return oneChildNodes(root);
     }
@@ -211,10 +293,35 @@ public class BinarySeachTree {
         }
     }
 
+    //wezly z jednym bratem
+    public int oneBrother(){
+        return oneBrother(root);
+    }
+
+    private int oneBrother(Node root){
+        int amount = 0;
+        if(root.getLeftChild() == null){
+            if(root.getRightChild() == null){
+                return 0;
+            }
+            else{
+                return oneBrother(root.getRightChild());
+            }
+        }else if(root.getRightChild() == null){
+            return oneBrother(root.getLeftChild());
+        }
+        else{
+            amount +=2;
+            amount += oneBrother(root.getLeftChild());
+            amount += oneBrother(root.getRightChild());
+            return amount;
+        }
+    }
+
+    //przechodzenie po drzewie
     public void inOrder(){root.inOrder();}
     
-    public void postOrder(){root.preOrder();}
+    public void postOrder(){root.postOrder();}
 
     public void preOrder(){root.preOrder();}
-
 }

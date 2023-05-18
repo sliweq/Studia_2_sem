@@ -8,7 +8,7 @@ public class Wersja1 {
         while(tmp > 0){
 
             //insert sort ale zrobiony pod algorytm shella
-            for(int x = odstep[tmp]; x < tablica.length ; x+=1){
+            for(int x = odstep[tmp]; x < tablica.length && x < 2*odstep[tmp]; x+=1){
 
                 int tmpNumber = tablica[x];
                 int tmpIndex = x-odstep[tmp];

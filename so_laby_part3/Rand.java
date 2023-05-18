@@ -27,8 +27,7 @@ public class Rand {
                 addToRam(page);
             }
             increaseTimeInRam();
-            //sprawdzanie w ramie czy jest 
-            //for(int x = 0 )
+
         }
 
         System.out.println("Pages errors rand: "+numberOfPagesErrors);

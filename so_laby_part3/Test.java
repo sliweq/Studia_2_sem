@@ -92,7 +92,6 @@ public class Test {
                     locality = true;
                     localityMeter = 10;
 
-                    
                     int randomPage = rand.nextInt(0,numberOfPages);
 
                     localityLocation = randomPage;

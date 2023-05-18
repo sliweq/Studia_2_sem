@@ -31,7 +31,7 @@ public class Fifo {
 
         }
 
-        System.out.println("Pages errors LRU: "+numberOfPagesErrors);
+        System.out.println("Pages errors LRU: " + numberOfPagesErrors);
     }
     private void increaseTimeInRam(){
         for(int x = 0; x < ram.length; x++){

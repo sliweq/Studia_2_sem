@@ -20,10 +20,6 @@ public class Page {
         chance = 1;
     }
 
-    public void setNumberOfPage(int numberOfPage){
-        this.numberOfPage = numberOfPage;
-    }
-
     public int getNumberOfPage(){
         return numberOfPage;
     }
