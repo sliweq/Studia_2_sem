@@ -80,4 +80,5 @@ przy freezowaniu procesów jak d wynisi 28 a ramek w ramie mamy 20 to można wyb
 to np 9. Albo jeśli jest 7 procesów po 2 ramki i jeden który zajmuje 15 to lepiej freezować ten co ma 15 i chuj
 
 Wielkości 
+
 Prcesy do kilku. 10 starcza 

@@ -28,7 +28,7 @@ public class Page {
         timeInRam +=1;
     }
     public void resetTimeInRam(){
-        timeInRam = 1;
+        timeInRam = 0;
     }
     public int getTimeInRam(){
         return timeInRam;
@@ -43,5 +43,9 @@ public class Page {
 
     public int getChance(){
         return chance;
+    }
+
+    public String toString(){
+        return ("number of Page: "+ numberOfPage + " number of process " + numberOfProcess);
     }
 }

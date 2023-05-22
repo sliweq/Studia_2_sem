@@ -82,6 +82,7 @@ public class Lru {
         for(int x = 0; x < ram.length; x++){
             if(ram[x] != null){
                 if(ram[x].getNumberOfPage() == page.getNumberOfPage()){
+                    ram[x].resetTimeInRam();
                     return true;
                 }
             }

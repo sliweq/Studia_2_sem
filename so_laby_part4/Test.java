@@ -24,6 +24,8 @@ public class Test {
     private ArrayList<ArrayList<Page>> rawArray = new ArrayList<ArrayList<Page>>();
 
     private ArrayList<Page> finalArray = new ArrayList<>();
+    
+    private int tik = 10;
 
 
     public Test(){
@@ -65,7 +67,7 @@ public class Test {
             int localityMeter = 0;
             int localityLocation = 0; 
 
-            int maxLocal = 10;
+            int maxLocal = 5;
 
             Random rand = new Random();
         
@@ -148,14 +150,44 @@ public class Test {
                     }
                 }
             }
-
-
         }
-        
     }
-   
-    public static void main(String[] args){
+    
+    public void startSimualtion() throws Exception{
+        Equal e = new Equal(ramSize, numberOfProcesses, finalArray);
+
+        for(Page tmp: finalArray){
+            tmp.resetTimeInRam();
+        }
+
+        Prop p = new Prop(ramSize, numberOfProcesses, finalArray, sizeOfProcesses);
+
+        for(Page tmp: finalArray){
+            tmp.resetTimeInRam();
+        }
+         
+        for(Page tmp: finalArray){
+            tmp.resetTimeInRam();
+        }
+    }
+
+    public void printSettings(){
+        System.out.println("Max size of processes: " + minSizeOfProcesses);
+        System.out.println("Min size of processes: " + maxSizeOfProcesses);
+        System.out.println("Max references amount: " + minSizeOfReferences);
+        System.out.println("Min references amount: " + maxSizeOfReferences
+        + "\nProcesses amount: "+ numberOfProcesses + "\nRam size: " + ramSize + "\nAll references: " + finalArray.size());
+
+        for(int x = 0;sizeOfProcesses.length > x; x++){
+            System.out.println("Process " + x + " Size of process " + sizeOfProcesses[x] + " Amount of refernces " + amountOfReferences[x]);
+        }
+    }
+    public static void main(String[] args) throws Exception{
+
         Test t = new Test();
+        t.printSettings();
+        t.startSimualtion();
     }
     
 }
+
