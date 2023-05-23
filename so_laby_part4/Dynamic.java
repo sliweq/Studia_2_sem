@@ -115,17 +115,13 @@ public class Dynamic {
                             }
                         }
                         
-                        //odbieranie ramek i dodawanie do innego procesu
+                        addFrames(tableOfLU,  removeFrames(tableOfLU));
                         
-
-
                         //czyszczenie historii
                         for(int i: historyOfErrors){
                             i = 0;
                         }
                     }
-                    //jesli gdzies jest za mało to odbieramy i dodajemy do innego 
-                    //aktualizowanie size of fragments
                     
                 }else{
                     addToRam(tmpPage);
@@ -150,12 +146,27 @@ public class Dynamic {
 
     }
 
-    private int removeFrames(int[] table){
+    private void addFrames(int[] array, int removed){
+
+        for(int x = 0;  x< array.length; x++){
+            if(array[x] == 1 ){
+                if(removed == 0){
+                    break;
+                }
+                else if( removed >= 1){
+                    sizeOfFragments[x] +=1;
+                    removed -= 1;
+                }
+            }
+        }
+    }
+
+    private int removeFrames(int[] array){
         int removed = 0; 
 
         Random rand = new Random();
-        for(int x = 0; x < table.length; x++){
-            if(table[x] == -1){
+        for(int x = 0; x < array.length; x++){
+            if(array[x] == -1){
                 if(ram[x].size() > 1){
                     ram[x].remove(rand.nextInt(0,ram[x].size()));
                     removed +=1;

@@ -13,6 +13,8 @@ public class Test {
     private int maxSizeOfReferences = 15_000;
     private int minSizeOfReferences = 5_000;
 
+    private int l = 5;
+    private int u = 20;
 
     private int numberOfProcesses = 10;
     private int ramSize = 100;
@@ -25,8 +27,7 @@ public class Test {
 
     private ArrayList<Page> finalArray = new ArrayList<>();
     
-    private int tik = 10;
-
+    private int tik = 30;
 
     public Test(){
         Random rand = new Random();
@@ -85,9 +86,6 @@ public class Test {
                         tmpPage.setNumberOfProcess(x);
                         rawArray.get(x).add(tmpPage);
 
-
-
-                        
                     }
                     else if(localityLocation+tmp_local > numberOfPages-1){
                         int randomPage = rand.nextInt(localityLocation-tmp_local,Math.min(numberOfPages-1, localityLocation+tmp_local));
@@ -95,8 +93,6 @@ public class Test {
 
                         tmpPage.setNumberOfProcess(x);
                         rawArray.get(x).add(tmpPage);
-
-
 
                     }
                     else{
@@ -165,6 +161,8 @@ public class Test {
         for(Page tmp: finalArray){
             tmp.resetTimeInRam();
         }
+
+        Dynamic d = new Dynamic(ramSize, numberOfProcesses, finalArray, sizeOfProcesses, tik,u , l);
          
         for(Page tmp: finalArray){
             tmp.resetTimeInRam();

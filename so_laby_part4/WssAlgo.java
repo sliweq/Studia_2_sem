@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 import so_laby_part3.Page;
 
-public class Equal {
+public class WssAlgo {
     private int ramSize;
     private int numberOfProcesses;
 
@@ -13,13 +13,17 @@ public class Equal {
     private int frameDivision;
 
     private ArrayList<Page>[] ram;
-
+    private int l;
+    private int u;
 
     private int[] arrayOfErrors;
 
-    public Equal(int ramSize, int numberOfProcesses, ArrayList<Page> finalList) throws Exception{
+    public WssAlgo(int ramSize, int numberOfProcesses, ArrayList<Page> finalList, int u, int l) throws Exception{
         this.ramSize = ramSize;
         this.numberOfProcesses = numberOfProcesses;
+        this.l = l;
+        this.u = u;
+
         frameDivision = (int) ramSize/numberOfProcesses;
         if(frameDivision < 1){
             throw new Exception("One of the processes get not enough frames");
@@ -56,7 +60,7 @@ public class Equal {
             }
             increaseTimeInRam();
         }
-        System.out.println("Equal frames errors:");
+        System.out.println("Algorithm with wss frames errors:");
 
         for(int x = 0; x < arrayOfErrors.length; x++){
             System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x]);

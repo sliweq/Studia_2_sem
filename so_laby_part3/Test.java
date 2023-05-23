@@ -37,7 +37,7 @@ public class Test {
         int localityMeter = 0;
         int localityLocation = 0; 
 
-        int maxLocal = 9;
+        int maxLocal = 10;
 
         Random rand = new Random();
         
