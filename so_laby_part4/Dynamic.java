@@ -6,6 +6,7 @@ import java.util.Random;
 import so_laby_part3.Page;
 
 public class Dynamic {
+    private boolean dynamic;
     private int ramSize;
     private int numberOfProcesses;
 
@@ -14,18 +15,25 @@ public class Dynamic {
 
     private ArrayList<Page>[] ram;
 
-    private int[] arrayOfErrors;
+    private int u;
+    private int l; 
 
-    private int[] historyOfErrors;
+    private int[] arrayOfErrors; // wszystkie błdy stron
+
+    private int[] historyOfErrors ;
     private int tik;
     private int time;
 
-    public Dynamic(int ramSize, int numberOfProcesses, ArrayList<Page> finalList, int[] sizeOfProcessesv2, int tik) throws Exception{
+    public Dynamic(int ramSize, int numberOfProcesses, ArrayList<Page> finalList, int[] sizeOfProcessesv2, int tik, int u,int l) throws Exception{
         this.tik = tik;
         this.sizeOfFragments = sizeOfProcessesv2;
         this.ramSize = ramSize;
         this.numberOfProcesses = numberOfProcesses;
         this.finalList = finalList;
+        this.u = u; 
+        this.l = l; 
+
+        dynamic = false;
 
         time = 0; 
 
@@ -66,6 +74,11 @@ public class Dynamic {
             x = 0;
         }
 
+        historyOfErrors = new int[numberOfProcesses];
+        for(int x: historyOfErrors){
+            x = 0;
+        }
+
         startSimualtion();
         printCosTam();
     }
@@ -74,18 +87,57 @@ public class Dynamic {
     private void startSimualtion(){
         int finalArraySize = finalList.size();
         for(int x = 0; x < finalArraySize; x ++){
+            if(!dynamic){
+                if(checkNullInRam() == false){
+                    dynamic = true;
+                } 
+            }
             Page tmpPage = finalList.get(x);
             if(!checkInRam(tmpPage)){
+
                 arrayOfErrors[tmpPage.getNumberOfProcess()] += 1;
-                addToRam(tmpPage);
-                
+                if(dynamic){
+                    // update history of errors
+                    historyOfErrors[tmpPage.getNumberOfProcess()] +=1;
+
+                    if(time % tik == 0 ){
+                        //sprawdzanie które procesy przekroczyły l lub u
+                        int[] tableOfLU = new int[numberOfProcesses];
+                        for(int i = 0; i < numberOfProcesses; i++){
+                            if(historyOfErrors[i] >= u){
+                                tableOfLU[i] = 1;
+                            }
+                            else if(historyOfErrors[i] <= l){
+                                tableOfLU[i] = -1;
+                            }
+                            else{
+                                tableOfLU[i] = 0;
+                            }
+                        }
+                        
+                        //odbieranie ramek i dodawanie do innego procesu
+                        
+
+
+                        //czyszczenie historii
+                        for(int i: historyOfErrors){
+                            i = 0;
+                        }
+                    }
+                    //jesli gdzies jest za mało to odbieramy i dodajemy do innego 
+                    //aktualizowanie size of fragments
+                    
+                }else{
+                    addToRam(tmpPage);
+                }
+                time +=1;
             }
 
-            if(!checkInRam(tmpPage)){
+            //if(!checkInRam(tmpPage)){
                 // TODO dodanie metody która sprawdza nam czy juz nie ma zadnych null w ramie. 
                 //Jesli nie ma to zaczynamy juz przydział dynamiczny. Sprawdzanie czy któryś z procesów ma nie daje zbyt
                 // duzo lub zbyt mało błedów jesli tak to wtedy to naprawiamy
-            }
+            //}
 
             
             increaseTimeInRam();
@@ -96,6 +148,22 @@ public class Dynamic {
             System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x]);
         }
 
+    }
+
+    private int removeFrames(int[] table){
+        int removed = 0; 
+
+        Random rand = new Random();
+        for(int x = 0; x < table.length; x++){
+            if(table[x] == -1){
+                if(ram[x].size() > 1){
+                    ram[x].remove(rand.nextInt(0,ram[x].size()));
+                    removed +=1;
+                    sizeOfFragments[x] -=1;
+                }
+            }
+        }
+        return removed;
     }
 
     private boolean checkNullInRam(){
@@ -110,7 +178,7 @@ public class Dynamic {
 
     private void addToRam(Page page){
         boolean containsNull = true;
-        ArrayList<Page> fragmentOfRam  = ram[page.getNumberOfProcess()];
+        ArrayList<Page> fragmentOfRam = ram[page.getNumberOfProcess()];
         if(fragmentOfRam.size() == sizeOfFragments[page.getNumberOfProcess()]){
             containsNull = false;
         } 
@@ -120,7 +188,6 @@ public class Dynamic {
         if(containsNull){
             fragmentOfRam.add(page);
         }
-
         //gdy wszystkie to są inne procesy
         else{
             int longestInRam = 0;
