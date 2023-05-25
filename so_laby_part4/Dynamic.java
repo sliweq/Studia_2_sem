@@ -39,6 +39,7 @@ public class Dynamic {
 
         Random rand = new Random();
 
+        //przypisywanie ramek
         int tmp = 0;
         for(int x: sizeOfProcessesv2){
             tmp += x;
@@ -106,6 +107,7 @@ public class Dynamic {
                         for(int i = 0; i < numberOfProcesses; i++){
                             if(historyOfErrors[i] >= u){
                                 tableOfLU[i] = 1;
+                            
                             }
                             else if(historyOfErrors[i] <= l){
                                 tableOfLU[i] = -1;
@@ -118,8 +120,8 @@ public class Dynamic {
                         addFrames(tableOfLU,  removeFrames(tableOfLU));
                         
                         //czyszczenie historii
-                        for(int i: historyOfErrors){
-                            i = 0;
+                        for(int i = 0; i < historyOfErrors.length; i++){
+                            historyOfErrors[i] = 0;
                         }
                     }
                     
@@ -128,14 +130,6 @@ public class Dynamic {
                 }
                 time +=1;
             }
-
-            //if(!checkInRam(tmpPage)){
-                // TODO dodanie metody która sprawdza nam czy juz nie ma zadnych null w ramie. 
-                //Jesli nie ma to zaczynamy juz przydział dynamiczny. Sprawdzanie czy któryś z procesów ma nie daje zbyt
-                // duzo lub zbyt mało błedów jesli tak to wtedy to naprawiamy
-            //}
-
-            
             increaseTimeInRam();
         }
         System.out.println("Dynamic frames errors:");
@@ -147,7 +141,7 @@ public class Dynamic {
     }
 
     private void addFrames(int[] array, int removed){
-
+        Random rand = new Random();
         for(int x = 0;  x< array.length; x++){
             if(array[x] == 1 ){
                 if(removed == 0){
@@ -158,6 +152,11 @@ public class Dynamic {
                     removed -= 1;
                 }
             }
+        }
+        while(removed > 0){
+            int tmp = rand.nextInt(array.length);
+            sizeOfFragments[tmp] += 1;
+            removed-=1;
         }
     }
 
@@ -178,10 +177,10 @@ public class Dynamic {
     }
 
     private boolean checkNullInRam(){
-        boolean nulls =  false;
+        boolean nulls = false;
         for(int x = 0; x < ram.length; x++){
             if(ram[x].size() != sizeOfFragments[x]){
-                nulls = true;
+                return true ;
             }
         }
         return nulls;
@@ -231,7 +230,6 @@ public class Dynamic {
         }
 
         return false;
-
     }
     
     public void printCosTam(){

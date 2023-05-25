@@ -29,7 +29,8 @@ public class Prop {
             tmp += x;
         }
         for(int x = 0; x < sizeOfFragments.length ;x ++){
-            double tmpv2 = sizeOfProcessesv2[x]/(tmp*1.0);
+            double tmpv2 = (sizeOfProcessesv2[x]*1.0/(tmp));
+
             int tmpSize = (int) Math.round(ramSize*tmpv2);
             if(tmpSize < 1){
                 

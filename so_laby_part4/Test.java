@@ -8,13 +8,13 @@ import so_laby_part3.Page;
 public class Test {
     // parametry wielkosciowe jezei chodzi o procesy
     private int minSizeOfProcesses = 20;
-    private int maxSizeOfProcesses = 75;
+    private int maxSizeOfProcesses = 50;
 
     private int maxSizeOfReferences = 15_000;
     private int minSizeOfReferences = 5_000;
 
-    private int l = 5;
-    private int u = 20;
+    private int l = 10;
+    private int u = 24;
 
     private int numberOfProcesses = 10;
     private int ramSize = 100;
@@ -149,6 +149,90 @@ public class Test {
         }
     }
     
+    private void createProcessesTest(){
+        Page p = new Page(0);
+        p.setNumberOfProcess(0);
+        finalArray.add(p);
+        p = new Page(1);
+        p.setNumberOfProcess(0);
+        finalArray.add(p);
+        p = new Page(2);
+        p.setNumberOfProcess(0);
+        finalArray.add(p);
+        p = new Page(0);
+        p.setNumberOfProcess(2);
+        finalArray.add(p);
+        p = new Page(1);
+        p.setNumberOfProcess(2);
+        finalArray.add(p);
+        p = new Page(1);
+        p.setNumberOfProcess(1);
+        finalArray.add(p);
+        p = new Page(2);
+        p.setNumberOfProcess(1);
+        finalArray.add(p);
+        p = new Page(0);
+        p.setNumberOfProcess(2);
+        finalArray.add(p);
+        p = new Page(3);
+        p.setNumberOfProcess(2);
+        finalArray.add(p);
+        p = new Page(4);
+        p.setNumberOfProcess(0);
+        finalArray.add(p);
+        p = new Page(2);
+        p.setNumberOfProcess(2);
+        finalArray.add(p);
+        p = new Page(1);
+        p.setNumberOfProcess(1);
+        finalArray.add(p);
+        p = new Page(0);
+        p.setNumberOfProcess(0);
+        finalArray.add(p);
+        p = new Page(3);
+        p.setNumberOfProcess(0);
+        finalArray.add(p);
+        p = new Page(2);
+        p.setNumberOfProcess(2);
+        finalArray.add(p);
+        p = new Page(1);
+        p.setNumberOfProcess(2);
+        finalArray.add(p);
+        p = new Page(0);
+        p.setNumberOfProcess(1);
+        finalArray.add(p);
+        p = new Page(2);
+        p.setNumberOfProcess(1);
+        finalArray.add(p);
+        p = new Page(1);
+        p.setNumberOfProcess(2);
+        finalArray.add(p);
+
+        p = new Page(0);
+        p.setNumberOfProcess(0);
+        finalArray.add(p);
+
+        p = new Page(4);
+        p.setNumberOfProcess(0);
+        finalArray.add(p);
+
+        p = new Page(2);
+        p.setNumberOfProcess(1);
+        finalArray.add(p);
+
+        p = new Page(3);
+        p.setNumberOfProcess(2);
+        finalArray.add(p);
+
+        p = new Page(0);
+        p.setNumberOfProcess(1);
+        finalArray.add(p);
+
+        p = new Page(0);
+        p.setNumberOfProcess(2);
+        finalArray.add(p);
+    }
+
     public void startSimualtion() throws Exception{
         Equal e = new Equal(ramSize, numberOfProcesses, finalArray);
 
@@ -163,6 +247,26 @@ public class Test {
         }
 
         Dynamic d = new Dynamic(ramSize, numberOfProcesses, finalArray, sizeOfProcesses, tik,u , l);
+         
+        for(Page tmp: finalArray){
+            tmp.resetTimeInRam();
+        }
+    }
+
+    public void startSimualtionv2() throws Exception{
+        Equal e = new Equal(6, 3, finalArray);
+
+        for(Page tmp: finalArray){
+            tmp.resetTimeInRam();
+        }
+
+        Prop p = new Prop(6, 3, finalArray, new int[]{5,3,4});
+
+        for(Page tmp: finalArray){
+            tmp.resetTimeInRam();
+        }
+
+        Dynamic d = new Dynamic(6, 3, finalArray, new int[]{5,3,4}, 5,2 , 4);
          
         for(Page tmp: finalArray){
             tmp.resetTimeInRam();
@@ -185,6 +289,8 @@ public class Test {
         Test t = new Test();
         t.printSettings();
         t.startSimualtion();
+        //t.createProcessesTest();
+        //t.startSimualtionv2();
     }
     
 }
