@@ -17,12 +17,12 @@ public class Node {
         this.value = value;
     }
 
-    public void setLeftChild(String value){
-        leftChild = new Node(value);
+    public void setLeftChild(Node value){
+        leftChild = value;
     }
 
-    public void setRightChild(String value){
-        rightChild = new Node(value);
+    public void setRightChild(Node value){
+        rightChild = value;
     }
 
     public Node getLeftChild(){

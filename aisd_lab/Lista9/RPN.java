@@ -10,6 +10,7 @@ public class RPN {
     String wyrazenie;
     ArrayList<String> wyrazenieArray;
     ArrayList<String> rpn;
+    BST bst;
 
     public void wpiszWyrazenie(){
         wyrazenieArray = new ArrayList<>();
@@ -28,7 +29,7 @@ public class RPN {
                     i-=1;
                     wyrazenieArray.add(tmpWyrazenie.toString());
                 }
-                else if(((int)znak >= 40 && (int)znak <= 43) || (int)znak == 45 || (int)znak == 47 || (int)znak == 94){
+                else if(((int)znak >= 40 && (int)znak <= 43) || (int)znak == 45 || (int)znak == 47 || (int)znak == 37){
                     wyrazenieArray.add(String.valueOf(znak));
                 }
             }
@@ -43,7 +44,7 @@ public class RPN {
         if(str.equals("*")  || str.equals("/") ){
             return 2;
         }
-        if(str.equals("^") ){
+        if(str.equals("%") ){
             return 3;
         }
         return 0;
@@ -57,7 +58,7 @@ public class RPN {
     }
 
     public boolean czyOperator(String str){
-        if(str.equals("+")|| str.equals("-")|| str.equals("/") || str.equals("*") || str.equals("^")){
+        if(str.equals("+")|| str.equals("-")|| str.equals("/") || str.equals("*") || str.equals("%")){
             return true;
         }
         return false;
@@ -100,24 +101,103 @@ public class RPN {
 
     public void stworzDrzewo(){
         Stack<Node> stos = new Stack<>();
-        for(String x: wyrazenieArray){
-            //if(x == "+" ||)
+        for(String x: rpn){
+            if(x.equals("+") || x.equals("/") || x.equals("*") || x.equals("%") || x.equals("-")){
+                Node n = new Node(x);
+                n.setRightChild(stos.pop());
+                n.setLeftChild(stos.pop());
+                stos.push(n);
+            }
+            else{
+                stos.push(new Node(x));
+            }
         }
+        bst = new BST(stos.pop());
     }
 
-    public void sprawdzPoprawnosc(){
-        //TODO asdasdasda
+    public boolean sprawdzPoprawnosc(){
+        for(int i = 0; i < wyrazenie.length(); i++){
+            char tmp = wyrazenie.charAt(i);
+            if(!(tmp == 32 || (tmp >= 40 && tmp <= 43) || tmp == 45 || (tmp >= 47 && tmp <=57) || tmp == 37)){
+                return false;
+            }            
+        }
+        
+        Stack<String> stos = new Stack<>();
+        for(int i = 0; i < wyrazenie.length(); i++){
+            char tmp = wyrazenie.charAt(i);
+            if(tmp == 40){
+                stos.push(String.valueOf(tmp));
+            }            
+            else if(tmp == 41){
+                if(stos.isEmpty()){
+                    return false;
+                }
+                else{
+                    stos.pop();
+                }
+            }
+        }
+        if(!stos.isEmpty()){
+            return false;
+        }
+
+        stos.clear();
+
+        for(int i = 0; i < wyrazenie.length(); i++){
+            char tmp = wyrazenie.charAt(i);
+            if(tmp == 32){
+                continue;
+            }
+            if(tmp == 42 || tmp == 43 || tmp == 45 || tmp == 47 ||tmp == 37){
+                if(i == 0){
+                    return false;    
+                }
+                if(!stos.isEmpty()){
+                    return false;
+                }
+                stos.push(String.valueOf(tmp));
+            }            
+            else if(tmp != 40 && tmp != 41){
+                if(!stos.isEmpty()){
+                    stos.pop();
+                }
+            }
+        }
+        if(!stos.isEmpty()){
+            return false;
+        }
+
+
+        return true;
     }
     public static void main(String args[]){
         RPN r = new RPN();
         r.wpiszWyrazenie();
-        // for(String x: r.wyrazenieArray){
-        //     System.out.println(x);
-        // }
-        r.stworzRPN();
-        for(String x: r.rpn){
-            System.out.print(x+" ");
+
+        if(r.sprawdzPoprawnosc()){
+            r.stworzRPN();
+            r.stworzDrzewo();
+            BST bst = r.bst;
+
+            //postfix 
+            System.out.println("ONP notacja postfix");
+
+            r.bst.postOrder(bst.getRoot());
+            System.out.println();
+
+            System.out.println("Wynik działania: " + bst.obliczWynik(bst.getRoot()));
+
+            System.out.println("Ilość liści: " + bst.ileLisci(bst.getRoot()));
+
+            System.out.println("Ilość węzłow: " + bst.ileWezlow(bst.getRoot()));
+
+            System.out.println("Wysokosc drzewa: " + bst.wysokoscDrzewa(bst.getRoot()));
+
+            System.out.print("Postać infixowa: ");
+            bst.infix(bst.getRoot());
         }
+
     }
     
 }
