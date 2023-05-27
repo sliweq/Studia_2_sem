@@ -36,6 +36,7 @@ public class WssAlgo {
         wss = false;
 
         time = 0; 
+        frozenProcesses = new ArrayList<>();
 
         Random rand = new Random();
 
@@ -80,101 +81,206 @@ public class WssAlgo {
     }
 
     
-    private void startSimualtion(){
+    private void startSimualtion() throws Exception{
         int finalArraySize = finalList.size();
         for(int x = 0; x < finalArraySize; x ++){
+            Page tmpPage = finalList.get(x);
             if(!wss){
                 if(checkNullInRam() == false){
                     wss = true;
                 }
+                
             }
-
-            Page tmpPage = finalList.get(x);
-
-            boolean isFrozen = false;
-            for(Integer tmp: frozenProcesses){
-                if(tmp == tmpPage.getNumberOfProcess()){
-                    isFrozen = true;
+            if(wss){
+                boolean isFrozen = false;
+                for(Integer tmp: frozenProcesses){
+                    if(tmp == tmpPage.getNumberOfProcess()){
+                        isFrozen = true;
+                    }
                 }
-            }
-            
-            if(!isFrozen){
-                if(!checkInRam(tmpPage)){
-                    if(wss){
-                        if(time % c == 0){
-                            int[] historyOfRequests = new int[numberOfProcesses];
-                            
-                            createHistory(tmpPage, historyOfRequests);
-                            int d = 0; 
-                            for(int histor: historyOfRequests){
-                                d += histor;
-                            }
-                            if(d> ramSize){
-                                //sprawdzanei ktory proces nalezy wywalic
-                                int overFlow = d-ramSize;
+                
+                if(!isFrozen){
+                    if(!checkInRam(tmpPage)){
+                            if(time % c == 0){
+                                frozenProcesses.clear();
 
-                                int finalProcess = -1;
-
-                                int counter = historyOfRequests[0];
-                                int proces = 0;
-                                // gdy jest 1 dostepny
-                                for(int i = 1; i< historyOfRequests.length; i++){
-                                    if(historyOfRequests[i] >= overFlow && counter> historyOfRequests[i]){
-                                        counter = historyOfRequests[i];
-                                        proces = i;
-                                    }
-                                }
-                                //gdy ten jeden nie wystarczy to szukamy wiecej akurat ja będę brał najwieksze procesy
-                                if(counter < overFlow){
-                                    counter = 0; 
-                                    int index = 0;
-                                    int max = 0;
-                                    while(counter< overFlow){
-                                        for(int anotherTMP = 1; anotherTMP< historyOfRequests.length; anotherTMP ++){
-                                            if(historyOfRequests[anotherTMP] > max){
-                                                max = historyOfRequests[anotherTMP];
-                                                index = anotherTMP;
-                                            }
-                                        }
-                                        counter +=1;
-                                        historyOfRequests[index] = -1;
-                                    }
-
-                                    // mamy znalezionie procesy do usuniecia
-                                    // wiec przydało by sie je usunac i dodac ramki innym
-                                }
-                                else{
-                                    // jesli mamy jeden porces do wywalenia
-                                }
+                                int[] historyOfRequests = new int[numberOfProcesses];
                                 
-                                //TODO aktualizacja ilosc ramek dla każdego procesu które nie sa zawieszone
+                                createHistory(tmpPage, historyOfRequests);
+                                int d = 0; 
+                                for(int histor: historyOfRequests){
+                                    d += histor;
+                                }
 
+                                if(d> ramSize){
+                                    //sprawdzanei ktory proces nalezy wywalic
+                                    int overFlow = d-ramSize;
+        
+                                    int counter = historyOfRequests[0];
+                                    int proces = 0;
+                                    // gdy jest 1 dostepny
+                                    for(int i = 1; i< historyOfRequests.length; i++){
+                                        if(historyOfRequests[i] >= overFlow && counter> historyOfRequests[i]){
+                                            counter = historyOfRequests[i];
+                                            proces = i;
+                                        }
+                                    }
 
+                                    //gdy ten jeden nie wystarczy to szukamy wiecej akurat ja będę brał najwieksze procesy
+                                    if(counter < overFlow){
+                                        ArrayList<Integer> toDelete = new ArrayList<>();
+
+                                        counter = 0; 
+                                        int index = 0;
+                                        int max = 0;
+                                        while(counter<overFlow){
+                                            for(int anotherTMP = 1; anotherTMP< historyOfRequests.length; anotherTMP ++){
+                                                if(historyOfRequests[anotherTMP] > max && !toDelete.contains(anotherTMP)){
+                                                    max = historyOfRequests[anotherTMP];
+                                                    index = anotherTMP;
+                                                }
+                                            }
+                                            counter +=max;
+                                            toDelete.add(index);
+                                        }
+                                        //ok
+                                        for(int t: toDelete){
+                                            removeProcesses(t);
+                                        }
+                                        robinHood(historyOfRequests);
+                                        
+                                    }
+                                    else{
+                                        //ok 
+                                        removeProcesses(proces);
+                                        robinHood(historyOfRequests);
+
+                                    }
+                                }
+                                else if(d< ramSize){
+                                    //przydział gdy jest mniejszy
+                                    robinHood(historyOfRequests);
+                                }
                             }
-
                             else{
-                                // jesli d < ramSize
-                                //sprawdzamy ile jest wolnego miejsca i sprawdzamy ostatnie dowlowania
-                                //jesli ktorys z freezowanych ma odpowiednia ilosc to wrzucamy go do ramu
-                                //TODO aktualizacja ilosc ramek dla każdego procesu które nie sa zawieszone
+                                //git
+                                addToRam(tmpPage);
+                                arrayOfErrors[tmpPage.getNumberOfProcess()] +=1;
                             }
-    
-                        }
-                    }
-                    else{
-                        addToRam(tmpPage);
+                        
                     }
                 }
             }
+
+            else{
+                if(!checkInRam(tmpPage)){
+                    arrayOfErrors[tmpPage.getNumberOfProcess()] +=1;
+                    addToRam(tmpPage);
+                }
+            }
+
 
             time +=1;
             increaseTimeInRam();
               
         }
-        System.out.println("Dynamic frames errors:");
+        System.out.println("Wss frames errors:");
 
         for(int x = 0; x < arrayOfErrors.length; x++){
-            System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x]);
+            System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x] + " Ram usage: " + sizeOfFragments[x]);
+        }
+
+    }
+
+    private boolean processIsFrozen(int process){
+        for(int x: frozenProcesses){
+            if(x == process){
+                return true;
+            }
+        }
+        return false ;
+    }
+
+
+
+    private void robinHood(int[] historyOfRequests) throws Exception{
+        Random rand = new Random();
+        int tmp = 0;
+        for(int x: historyOfRequests){
+            if(!processIsFrozen(x)){
+                tmp += x;
+
+            }
+        }
+
+        for(int x = 0; x < sizeOfFragments.length ;x ++){
+            double tmpv2 = (historyOfRequests[x]*1.0/(tmp));
+            int tmpSize = (int) Math.round(ramSize*tmpv2);
+            if(tmpSize > 0){
+                if(tmpSize ==0){
+                    tmpSize = 1;
+                }
+                if(!processIsFrozen(x)){
+                    if(sizeOfFragments[x]>tmpSize){
+                        while(sizeOfFragments[x] != tmpSize){
+                            if(sizeOfFragments[x] > ram[x].size()){
+                                sizeOfFragments[x] -=1;
+                            }
+                            else{
+                                ram[x].remove(rand.nextInt(0,ram[x].size()));
+                                sizeOfFragments[x] -=1;
+                            }
+                       }
+                    }
+                    else if(sizeOfFragments[x] < tmpSize){
+                        while(sizeOfFragments[x] != tmpSize){
+                            sizeOfFragments[x] +=1;
+                        }
+                    }
+                }
+            }
+        }
+
+        int sum = 0; 
+        for(int x :sizeOfFragments){
+            sum+=x;
+        }
+        if(sum < ramSize){
+            for(int x = 0; x < (ramSize-sum); x++){
+                int process = rand.nextInt(0,numberOfProcesses);
+                if(!processIsFrozen(process)){
+                    sizeOfFragments[rand.nextInt(0,numberOfProcesses)] += 1;
+                }
+            }
+        }
+        else if(sum > ramSize){
+            int najwiecej = 0;
+            while(sum>ramSize){
+                for(int i = 1; i < numberOfProcesses; i++){
+                    if(sizeOfFragments[i] > sizeOfFragments[najwiecej]){
+                        najwiecej = i;
+                    }
+                }
+                if(sizeOfFragments[najwiecej] > ram[najwiecej].size()){
+                    sizeOfFragments[najwiecej] -= 1;
+                    sum-=1;
+                }
+                else{
+                    ram[najwiecej].remove(rand.nextInt(0,ram[najwiecej].size()));
+                    sizeOfFragments[najwiecej] -=1;
+                }
+                
+            }
+            //throw new Exception("error!");
+        }
+    }
+
+    private void removeProcesses(int x){
+        if(!processIsFrozen(x)){
+            int sizeToDelete = ram[x].size();
+            sizeOfFragments[x] = 0;
+            ram[x].clear();   
+            frozenProcesses.add(x);
         }
     }
 
@@ -184,7 +290,7 @@ public class WssAlgo {
         }
 
         int tmp = 0; 
-        int index = finalList.indexOf(page);
+        int index = finalList.indexOf(page)-1;
         while(tmp < deltaT && index >=0){
             history[finalList.get(index).getNumberOfProcess()] +=1;
             index -=1; 
@@ -214,7 +320,13 @@ public class WssAlgo {
                     longestInRam = x;
                 }
             }
-            fragmentOfRam.set(longestInRam, page);
+            try{
+
+                fragmentOfRam.set(longestInRam, page);
+            }
+            catch(Exception ex){
+                
+            }
         }
 
     }
@@ -249,5 +361,4 @@ public class WssAlgo {
             }
         }
     }
-
 }

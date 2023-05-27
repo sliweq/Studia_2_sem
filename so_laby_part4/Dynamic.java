@@ -81,7 +81,6 @@ public class Dynamic {
         }
 
         startSimualtion();
-        printCosTam();
     }
 
     
@@ -135,7 +134,7 @@ public class Dynamic {
         System.out.println("Dynamic frames errors:");
 
         for(int x = 0; x < arrayOfErrors.length; x++){
-            System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x]);
+            System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x] + " Ram usage: " + sizeOfFragments[x] );
         }
 
     }

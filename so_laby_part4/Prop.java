@@ -28,6 +28,7 @@ public class Prop {
         for(int x: sizeOfProcessesv2){
             tmp += x;
         }
+
         for(int x = 0; x < sizeOfFragments.length ;x ++){
             double tmpv2 = (sizeOfProcessesv2[x]*1.0/(tmp));
 
@@ -61,7 +62,6 @@ public class Prop {
         }
 
         startSimualtion();
-        printCosTam();
     }
 
     
@@ -79,7 +79,7 @@ public class Prop {
         System.out.println("Prop frames errors:");
 
         for(int x = 0; x < arrayOfErrors.length; x++){
-            System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x]);
+            System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x] + " Ram usage: " + sizeOfFragments[x]);
         }
 
     }
@@ -132,9 +132,4 @@ public class Prop {
 
     }
     
-    public void printCosTam(){
-        for(int x: sizeOfFragments){
-            System.out.println(x);
-        }
-    }
 }

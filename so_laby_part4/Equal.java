@@ -41,7 +41,6 @@ public class Equal {
         }
 
         startSimualtion();
-        printCosTam();
     }
 
     
@@ -59,7 +58,7 @@ public class Equal {
         System.out.println("Equal frames errors:");
 
         for(int x = 0; x < arrayOfErrors.length; x++){
-            System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x]);
+            System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x]+ " Ram usage: " + sizeOfFragments[x]);
         }
 
     }
@@ -109,11 +108,5 @@ public class Equal {
         }
 
         return false;
-    }
-
-    public void printCosTam(){
-        for(int x: sizeOfFragments){
-            System.out.println(x);
-        }
     }
 }

@@ -28,6 +28,7 @@ public class Test {
     private ArrayList<Page> finalArray = new ArrayList<>();
     
     private int tik = 30;
+    private int detlaT = 50;
 
     public Test(){
         Random rand = new Random();
@@ -251,6 +252,8 @@ public class Test {
         for(Page tmp: finalArray){
             tmp.resetTimeInRam();
         }
+
+        WssAlgo wss = new WssAlgo(ramSize, numberOfProcesses, finalArray, sizeOfProcesses, detlaT);
     }
 
     public void startSimualtionv2() throws Exception{

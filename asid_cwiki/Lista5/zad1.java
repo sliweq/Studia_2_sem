@@ -107,11 +107,25 @@ public class zad1 {
         }
     }
 
-    public static void main(String[] args) {
-        bucketSort(100,10);
-        prinArray();
-    }   
+    // public static void main(String[] args) {
+    //     bucketSort(100,10);
+    //     prinArray();
+    // }   
 
-    
+    public static void main(String[] args) {
+        int x = 78;
+        int y = 73;
+        int z = 71;
+        int p = 69;
+        int w = 82;
+        char a = (char)x;
+        char b = (char)y;
+        char c = (char)z;
+        char e = (char)p;
+        char f = (char)w;
+
+
+        System.out.println(""+a+b+c+c+e+f);
+    }      
     
 }
