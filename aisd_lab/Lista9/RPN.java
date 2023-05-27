@@ -179,12 +179,11 @@ public class RPN {
             r.stworzRPN();
             r.stworzDrzewo();
             BST bst = r.bst;
+            System.out.println();
 
             //postfix 
-            System.out.println("ONP notacja postfix");
-
-            r.bst.postOrder(bst.getRoot());
-            System.out.println();
+            System.out.println("ONP notacja postfix:");
+            r.bst.postfix();
 
             System.out.println("Wynik działania: " + bst.obliczWynik(bst.getRoot()));
 
@@ -195,7 +194,7 @@ public class RPN {
             System.out.println("Wysokosc drzewa: " + bst.wysokoscDrzewa(bst.getRoot()));
 
             System.out.print("Postać infixowa: ");
-            bst.infix(bst.getRoot());
+            bst.infix();
         }
 
     }

@@ -30,28 +30,53 @@ public class BST {
     }
 
     public int ileWezlow(Node node){
-        if(node.getLeftChild() == null){
-            if(node.getRightChild() == null){
-                return 1;
-            }
-            return ileLisci(node.getRightChild())+1;
+        int licznik = 1;
+        if(node.getLeftChild() != null){
+            licznik += ileWezlow(node.getLeftChild());
         }
-        else if(node.getRightChild() == null){{
-                return ileLisci(node.getLeftChild())+1;
-            }
+        if(node.getRightChild() != null){
+            licznik += ileWezlow(node.getRightChild());
         }
-        return ileLisci(node.getLeftChild()) + ileLisci(node.getRightChild())+1;   
+        return licznik;   
     }
 
-    public void postOrder(Node node){
+    public void postfix(){
+        System.out.println( " = " + postOrder(root));
+    }
+
+    private int postOrder(Node node){
+
+        int lewe = 0;
+        int prawe = 0;
+
         if(node.getLeftChild() != null){
-            postOrder(node.getLeftChild());
+            lewe += postOrder(node.getLeftChild());
         }
         if(node.getRightChild() != null ){
-            postOrder(node.getRightChild());
+            prawe += postOrder(node.getRightChild());
         }
         System.out.print(node.getValue() + " ");
-        
+        if(czyOperator(node.getValue())){
+            String op = node.getValue();
+                if(op.equals("+")){
+                    return lewe + prawe;
+                }
+                else if(op.equals("-")){
+                    return lewe - prawe;
+                }
+                else if(op.equals("*")){
+                    return lewe*prawe;
+                }
+                else if(op.equals("/")){
+                    return (int)(lewe/(prawe*1.0));
+                }
+                else{
+                    return (int) lewe%prawe;
+                }
+
+        }else{
+            return Integer.valueOf(node.getValue());
+        }  
     }
 
     public int obliczWynik(Node node){ 
@@ -105,12 +130,18 @@ public class BST {
         return Math.max(ileLisci(node.getLeftChild()),ileLisci(node.getRightChild()))+1;
     }
 
-    public void infix(Node node)
+    public void infix(){
+        System.out.println(" = "+infix(root));
+    }
+    private int infix(Node node)
     {
+        int lewe = 0;
+        int prawe = 0;
+        
         if (node.getLeftChild() != null)
         {
             System.out.print("(");
-            infix(node.getLeftChild());
+            lewe += infix(node.getLeftChild());
         }
 
         if (!czyOperator(node.getValue()))
@@ -120,8 +151,31 @@ public class BST {
 
         if (node.getRightChild() != null)
         {
-            infix(node.getRightChild());
+            prawe += infix(node.getRightChild());
             System.out.print(")");
+        }
+
+        if(czyOperator(node.getValue())){
+                String op = node.getValue();
+                if(op.equals("+")){
+                    return lewe + prawe;
+                }
+                else if(op.equals("-")){
+                    return lewe - prawe;
+                }
+                else if(op.equals("*")){
+                    return lewe*prawe;
+                }
+                else if(op.equals("/")){
+                    return (int)(lewe/(prawe*1.0));
+                }
+                else{
+                    return (int) lewe%prawe;
+                }
+            
+        }
+        else{
+            return Integer.valueOf(node.getValue());
         }
     }
 
