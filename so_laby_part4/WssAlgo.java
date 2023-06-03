@@ -32,7 +32,7 @@ public class WssAlgo {
         this.numberOfProcesses = numberOfProcesses;
         this.finalList = finalList;
 
-        c = (int) (0.75*deltaT);
+        c = (int)(0.75*deltaT);
         wss = false;
 
         time = 0; 
@@ -50,7 +50,6 @@ public class WssAlgo {
             double tmpv2 = sizeOfProcessesv2[x]/(tmp*1.0);
             int tmpSize = (int) Math.round(ramSize*tmpv2);
             if(tmpSize < 1){
-                
                 throw new Exception("One of the processes get not enough frames");
             }
             sizeOfFragments[x] = tmpSize; 
@@ -143,7 +142,6 @@ public class WssAlgo {
                                             counter +=max;
                                             toDelete.add(index);
                                         }
-                                        //ok
                                         for(int t: toDelete){
                                             removeProcesses(t);
                                         }
@@ -151,7 +149,6 @@ public class WssAlgo {
                                         
                                     }
                                     else{
-                                        //ok 
                                         removeProcesses(proces);
                                         robinHood(historyOfRequests);
 
@@ -163,7 +160,6 @@ public class WssAlgo {
                                 }
                             }
                             else{
-                                //git
                                 addToRam(tmpPage);
                                 arrayOfErrors[tmpPage.getNumberOfProcess()] +=1;
                             }
@@ -171,7 +167,6 @@ public class WssAlgo {
                     }
                 }
             }
-
             else{
                 if(!checkInRam(tmpPage)){
                     arrayOfErrors[tmpPage.getNumberOfProcess()] +=1;
@@ -185,10 +180,12 @@ public class WssAlgo {
               
         }
         System.out.println("Wss frames errors:");
-
+        int licznik = 0; 
         for(int x = 0; x < arrayOfErrors.length; x++){
             System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x] + " Ram usage: " + sizeOfFragments[x]);
+            licznik += arrayOfErrors[x];
         }
+        System.out.println(licznik);
 
     }
 
@@ -250,6 +247,7 @@ public class WssAlgo {
                 int process = rand.nextInt(0,numberOfProcesses);
                 if(!processIsFrozen(process)){
                     sizeOfFragments[rand.nextInt(0,numberOfProcesses)] += 1;
+                    sum+=1;
                 }
             }
         }
@@ -269,10 +267,17 @@ public class WssAlgo {
                     ram[najwiecej].remove(rand.nextInt(0,ram[najwiecej].size()));
                     sizeOfFragments[najwiecej] -=1;
                 }
-                
+                sum = updateSum();
             }
-            //throw new Exception("error!");
         }
+    }
+
+    private int updateSum(){
+        int tmp = 0;
+        for(int x: sizeOfFragments){
+            tmp += x;
+        }
+        return tmp;
     }
 
     private void removeProcesses(int x){

@@ -77,10 +77,12 @@ public class Prop {
             increaseTimeInRam();
         }
         System.out.println("Prop frames errors:");
-
+        int licznik = 0;
         for(int x = 0; x < arrayOfErrors.length; x++){
             System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x] + " Ram usage: " + sizeOfFragments[x]);
+            licznik += arrayOfErrors[x];
         }
+        System.out.println(licznik);
 
     }
 

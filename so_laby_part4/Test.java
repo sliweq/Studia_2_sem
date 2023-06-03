@@ -8,15 +8,15 @@ import so_laby_part3.Page;
 public class Test {
     // parametry wielkosciowe jezei chodzi o procesy
     private int minSizeOfProcesses = 20;
-    private int maxSizeOfProcesses = 50;
+    private int maxSizeOfProcesses = 70;
 
     private int maxSizeOfReferences = 15_000;
     private int minSizeOfReferences = 5_000;
 
-    private int l = 10;
-    private int u = 24;
+    private int l = 5;
+    private int u = 17;
 
-    private int numberOfProcesses = 10;
+    private int numberOfProcesses = 7;
     private int ramSize = 100;
 
     private int[] sizeOfProcesses = new int[numberOfProcesses];
@@ -27,17 +27,14 @@ public class Test {
 
     private ArrayList<Page> finalArray = new ArrayList<>();
     
-    private int tik = 30;
-    private int detlaT = 50;
+    private int tik = 50;
+    private int detlaT = 75;
 
     public Test(){
         Random rand = new Random();
 
-        // losowanie wielkości procesów, ilosci unikalcnych stron dla każdego procesu 
         for(int x = 0; x < numberOfProcesses; x++){
-            //zakres wielkosci
             sizeOfProcesses[x] = rand.nextInt(minSizeOfProcesses,maxSizeOfProcesses);
-            //ilosc referencji czy odwolan do poszczegolnych procesow
             amountOfReferences[x] = rand.nextInt(minSizeOfReferences, maxSizeOfReferences);
         }
 
@@ -58,7 +55,6 @@ public class Test {
     }
 
     private void createProcesses(){
-        // tworzenie procesów
 
         for(int x = 0; x < numberOfProcesses; x++){
             rawArray.add(new ArrayList<>());
@@ -75,8 +71,6 @@ public class Test {
         
             for(int i= 0; i < amountOfReferences[x]; i++){
                 if(locality){
-                    //dodawanie 
-                    // w lokalnosci
 
                     int tmp_local = rand.nextInt(1,maxLocal);
 
@@ -102,9 +96,6 @@ public class Test {
 
                         tmpPage.setNumberOfProcess(x);
                         rawArray.get(x).add(tmpPage);
-
-
-
                     }
 
                     localityMeter -=1;
@@ -116,7 +107,6 @@ public class Test {
                 }
                 else{
                     double localityRate = Math.random();
-                    // rng lokalmności mozna podregulowac zmieniajac localityRate lub localityMeter różnie
                     if(localityRate <= 0.1){
                         locality = true;
                         localityMeter = 10;
@@ -137,13 +127,11 @@ public class Test {
                         localityMeter -= 1;
                     }
                     else{
-                        //dodanie randomowej strony chyba rand int;
                         int randomPage = rand.nextInt(0,numberOfPages);
                         Page tmpPage = new Page(randomPage);
 
                         tmpPage.setNumberOfProcess(x);
                         rawArray.get(x).add(tmpPage);
-
                     }
                 }
             }

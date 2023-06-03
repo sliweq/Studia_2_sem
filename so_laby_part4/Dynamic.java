@@ -60,7 +60,6 @@ public class Dynamic {
         if(sum != ramSize){
             for(int x = 0; x < (ramSize-sum); x++){
                 sizeOfFragments[rand.nextInt(0,numberOfProcesses)] += 1;
-
             }
         }
 
@@ -123,9 +122,16 @@ public class Dynamic {
                             historyOfErrors[i] = 0;
                         }
                     }
+                    addToRam(tmpPage);
                     
                 }else{
                     addToRam(tmpPage);
+                    historyOfErrors[tmpPage.getNumberOfProcess()] +=1;
+                    if(time % tik == 0){
+                        for(int i = 0; i < historyOfErrors.length; i++){
+                            historyOfErrors[i] = 0;
+                        }
+                    }
                 }
                 time +=1;
             }
@@ -133,9 +139,12 @@ public class Dynamic {
         }
         System.out.println("Dynamic frames errors:");
 
+        int licznik = 0;  
         for(int x = 0; x < arrayOfErrors.length; x++){
             System.out.println("Proces:" + x + " Errors: " + arrayOfErrors[x] + " Ram usage: " + sizeOfFragments[x] );
+            licznik += arrayOfErrors[x];
         }
+        System.out.println(licznik);
 
     }
 

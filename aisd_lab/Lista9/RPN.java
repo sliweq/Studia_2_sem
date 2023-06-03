@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
-import Lista4.ArrayStack;
-
 public class RPN {
     String wyrazenie;
     ArrayList<String> wyrazenieArray;
@@ -71,7 +69,7 @@ public class RPN {
         for(int i = 0; i< wyrazenieArray.size(); i++){
             String znak = wyrazenieArray.get(i);
             if(czyOperator(znak)){
-                while(!stos.isEmpty() &&!czyNawias(stos.peek()) && (wartoscOperatora(znak) < wartoscOperatora(stos.peek()) || wartoscOperatora(znak) == wartoscOperatora(stos.peek()))){
+                while(!stos.isEmpty() && !czyNawias(stos.peek()) && (wartoscOperatora(znak) <= wartoscOperatora(stos.peek()))){
                     rpn.add(stos.pop());
                 }
                 stos.push(znak);
@@ -90,7 +88,6 @@ public class RPN {
                     }
                 }
             }else{
-                //jesli jest liczba
                 rpn.add(znak);
             }
         }
@@ -102,7 +99,7 @@ public class RPN {
     public void stworzDrzewo(){
         Stack<Node> stos = new Stack<>();
         for(String x: rpn){
-            if(x.equals("+") || x.equals("/") || x.equals("*") || x.equals("%") || x.equals("-")){
+            if(czyOperator(x)){
                 Node n = new Node(x);
                 n.setRightChild(stos.pop());
                 n.setLeftChild(stos.pop());
@@ -171,6 +168,7 @@ public class RPN {
 
         return true;
     }
+    
     public static void main(String args[]){
         RPN r = new RPN();
         r.wpiszWyrazenie();
@@ -195,6 +193,8 @@ public class RPN {
 
             System.out.print("Postać infixowa: ");
             bst.infix();
+
+            bst.wyszukajPoPoziomach();
         }
 
     }

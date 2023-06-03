@@ -1,5 +1,8 @@
 package Lista9;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BST {
     Node root;
 
@@ -44,10 +47,10 @@ public class BST {
         System.out.println( " = " + postOrder(root));
     }
 
-    private int postOrder(Node node){
+    private double postOrder(Node node){
 
-        int lewe = 0;
-        int prawe = 0;
+        double lewe = 0;
+        double prawe = 0;
 
         if(node.getLeftChild() != null){
             lewe += postOrder(node.getLeftChild());
@@ -68,20 +71,20 @@ public class BST {
                     return lewe*prawe;
                 }
                 else if(op.equals("/")){
-                    return (int)(lewe/(prawe*1.0));
+                    return (lewe/(prawe*1.0));
                 }
                 else{
-                    return (int) lewe%prawe;
+                    return lewe%prawe;
                 }
 
         }else{
-            return Integer.valueOf(node.getValue());
+            return Double.valueOf(node.getValue());
         }  
     }
 
-    public int obliczWynik(Node node){ 
-        int lewe = 0;
-        int prawe = 0;
+    public double obliczWynik(Node node){ 
+        double lewe = 0;
+        double prawe = 0;
         if(node.getLeftChild() != null){
             lewe = obliczWynik(node.getLeftChild());
         }
@@ -100,13 +103,13 @@ public class BST {
                 return lewe*prawe;
             }
             else if(op.equals("/")){
-                return (int)(lewe/(prawe*1.0));
+                return (lewe/(prawe*1.0));
             }
             else{
-                return (int) lewe%prawe;
+                return lewe%prawe;
             }
         }
-        return Integer.valueOf(node.getValue());
+        return Double.valueOf(node.getValue());
     }
 
     private boolean czyOperator(String str){
@@ -133,10 +136,11 @@ public class BST {
     public void infix(){
         System.out.println(" = "+infix(root));
     }
-    private int infix(Node node)
+    
+    private double infix(Node node)
     {
-        int lewe = 0;
-        int prawe = 0;
+        double lewe = 0;
+        double prawe = 0;
         
         if (node.getLeftChild() != null)
         {
@@ -167,16 +171,39 @@ public class BST {
                     return lewe*prawe;
                 }
                 else if(op.equals("/")){
-                    return (int)(lewe/(prawe*1.0));
+                    return (lewe/(prawe*1.0));
                 }
                 else{
-                    return (int) lewe%prawe;
+                    return lewe%prawe;
                 }
             
         }
         else{
-            return Integer.valueOf(node.getValue());
+            return Double.valueOf(node.getValue());
         }
+    }
+
+    public void wyszukajPoPoziomach(){
+        System.out.println("Printowanie po poziomach");
+        wyszukajPoPoziomach(root);
+        System.out.println();
+    }
+    
+    private void wyszukajPoPoziomach(Node node){
+        Queue<Node> queue = new LinkedList<>();
+        if(node != null){
+            queue.add(node);
+            while(!queue.isEmpty()){
+                if(queue.peek().getLeftChild() != null){
+                    queue.add(queue.peek().getLeftChild());
+                }
+                if(queue.peek().getRightChild() != null){
+                    queue.add(queue.peek().getRightChild());
+                }
+                System.out.print(queue.remove().getValue()+" ");
+            }
+        }
+
     }
 
 }
