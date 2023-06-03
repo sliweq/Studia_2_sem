@@ -1,0 +1,3 @@
+Ogólnie jeżeli chodzi o te algorytmy 
+Czy może byc że tworzymy jedną wielka kolejkę dla wszystkich procesów
+i dopiero później w algorytmie przydzielamy go do losowego procesora 
