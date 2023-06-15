@@ -75,12 +75,8 @@ public class BST {
                     return node.getLeftChild();
                 }
 
-                // sa oba dzieci
-                //ustawienie nastepnika
-                //cos to nie dziala z 20
                 Node nastepnik = getNastepnik(node); 
                 node.resetNode(nastepnik.getValue(), nastepnik.getLinijki());
-
                 node.setRightChild(remove(node.getRightChild(), node.getValue()));
                 
             }
@@ -118,7 +114,14 @@ public class BST {
                 if(queue.peek().getRightChild() != null){
                     queue.add(queue.peek().getRightChild());
                 }
-                System.out.print(queue.remove().getValue()+" ");
+                Node tmpNode = queue.remove();
+                System.out.print(tmpNode.getValue()+"[ ");
+                for(int x: tmpNode.getLinijki()){
+                    System.out.print(x + " ");
+                }
+                System.out.print("] ");
+                System.out.println();
+                
             }
         }
 

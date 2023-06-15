@@ -42,7 +42,7 @@ public class tak {
         bst = new BST();
         int linijka = 1;
         while(line != null){
-            for(String x:line.split("[,. ?!-_]+")){
+            for(String x : line.split("[,. ?!-_]+")){
                 bst.insert(x, linijka);
             }
             linijka +=1;
@@ -55,8 +55,7 @@ public class tak {
         wczytajPlik();
         bst.inorder();
         bst.wszerz();
-        System.out.println(bst);
-        bst.remove("będą");
+        bst.remove("nie");
         bst.wszerz();
     }
     

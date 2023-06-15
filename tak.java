@@ -5,6 +5,12 @@ import java.util.Random;
 public class tak {
 
     public static void main(String[] args){
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("asdasd");
+        strings.add("b");
+        System.out.println(strings.remove("c"));
+
+
         // int x = 0;
         // int y = 0;
         // int z  = 0;
@@ -36,21 +42,21 @@ public class tak {
         // }
         // System.out.println(y+ " " + z);
 
-        int[] array = new int[100];
-        for(int x: array){
-            x = 0; 
-        }
+        // int[] array = new int[100];
+        // for(int x: array){
+        //     x = 0; 
+        // }
 
-        Random rand = new Random();
+        // Random rand = new Random();
 
-        for(int x = 0; x< 100_000 ;x++){
-            int tmp = rand.nextInt(0,100);
-            array[tmp] += 1;
-        }
+        // for(int x = 0; x< 100_000 ;x++){
+        //     int tmp = rand.nextInt(0,100);
+        //     array[tmp] += 1;
+        // }
 
-        for(int x: array){
-            System.out.print(x + " ");
-        }
+        // for(int x: array){
+        //     System.out.print(x + " ");
+        // }
 
     }    
 }

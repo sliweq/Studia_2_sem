@@ -1,3 +1,19 @@
-Ogólnie jeżeli chodzi o te algorytmy 
-Czy może byc że tworzymy jedną wielka kolejkę dla wszystkich procesów
-i dopiero później w algorytmie przydzielamy go do losowego procesora 
+Zwiekszyc obiciążanie prcesów
+
+algo1 
+
+pytamy najpierw z razy inne procki, a jak maja wszsytkie powyzej p to bierzemy na siebie
+jak jest overload to nie bawimy sie w jakies usuwanie tylko dodajemy je do procka i normalnie wykonujemy
+
+losowo dobieramy procki !!!!!!!!!
+
+ALGO 3 
+tak samo jak w drugim algo jezeli mamy poniez r to pytamy losowo wybrany procesor czy ma wiecej niz p. Jeśli ma wiecej niz p 
+to zabiramy mu procesy albo do przekroczenia r albo do poniezj p. Zależy od nas. Po prostu cały proces zabieramy 
+
+Średnie obciążęnie całgo systemu
+Średnie obiciążęnie każdego procka 
+?? Odchylenie od średniego obciążenia dobra wpisać w googla chuju zajebanye
+Ilość zapytań dla całego systemu
+Ilość migracji dla całego systemu
+
