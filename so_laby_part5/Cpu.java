@@ -6,6 +6,30 @@ public class Cpu {
     private ArrayList<Process> arrayOfProcesses;
     private int number;
     private double cpuLoad;
+    private ArrayList<Double> cpuLoadHistory;
+
+    public Cpu(int number){
+        this.number = number;
+        cpuLoad = 0;
+        arrayOfProcesses = new ArrayList<>();
+        cpuLoadHistory = new ArrayList<>();
+    }   
+
+    public void clearHistory(){
+        cpuLoadHistory.clear();
+    }
+
+    public double getAvgLoad(){
+        Double tmp = 0.0;
+        for(Double doub: cpuLoadHistory){
+            tmp += doub;
+        }
+        return tmp/cpuLoadHistory.size();
+    }
+
+    public void saveLoad(){
+        cpuLoadHistory.add(cpuLoad);
+    }
 
     public void removeProcess(Process process){
         boolean tmp = arrayOfProcesses.remove(process);
@@ -13,12 +37,6 @@ public class Cpu {
             cpuLoad-= process.getLoad();
         }
     }
-
-    public Cpu(int number){
-        this.number = number;
-        cpuLoad = 0;
-        arrayOfProcesses = new ArrayList<>();
-    }   
 
     public void addProcess(Process process){
         arrayOfProcesses.add(process);

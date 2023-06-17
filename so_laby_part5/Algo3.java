@@ -11,7 +11,13 @@ public class Algo3 {
     private int migrationMeter;
     private int queryMeter;
 
-    public Algo3(ArrayList<Cpu> arrayOfCpus, ArrayList<Process> arrayOfProcesses, int p, int r){
+    private ArrayList<Double> avgCpuLoad;
+    private ArrayList<Double> avgSystemLoad;
+    private int tik;
+    private int time;
+
+
+    public Algo3(ArrayList<Cpu> arrayOfCpus, ArrayList<Process> arrayOfProcesses, int p, int r, int tik){
         this.arrayOfCpus = arrayOfCpus;
         this.arrayOfProcesses = arrayOfProcesses;
         this.p = p; 
@@ -19,14 +25,33 @@ public class Algo3 {
         queryMeter = 0;
         migrationMeter = 0;
 
+        this.tik = tik;
+        time = 0;
+        avgCpuLoad = new ArrayList<>();
+        avgSystemLoad = new ArrayList<>();
+
         startSimulation();
 
         System.out.println("Algorytm 3");
         System.out.println("Ilość zapytań: " + queryMeter);
         System.out.println("Ilość migracji: " + migrationMeter);
+
+        Double tmp = 0.0;
+        for(Cpu cpu: arrayOfCpus){
+            tmp +=cpu.getAvgLoad();
+        }
+        System.out.println("Średnie obciążenie procesorów: " +(tmp/arrayOfCpus.size()) );
+        tmp = 0.0;
+        for(Double doub: avgSystemLoad){
+            tmp += doub;
+        }
+        System.out.println("Średnie obciążenie systemu: " +(tmp/avgSystemLoad.size()) );
+        System.out.println("Odchylenie standardowe obc. systemu: " + standardDeviation((tmp/avgSystemLoad.size())));
+
+
     }
 
-    public void startSimulation(){
+    private void startSimulation(){
          while(arrayOfProcesses.size() != 0 || isCpusWorks()){
             if(arrayOfProcesses.size() == 0){
                 updateCPUs();
@@ -37,11 +62,39 @@ public class Algo3 {
                 allocateProcess(process);
                 helpfulCpus();
             }
+            time += 1;
+            if(time%tik == 0){
+                avgCpusLoad();
+                avgSystemLoad();
+            }
 
         }
     }
 
-    public boolean isCpusWorks(){
+    public double standardDeviation(double svg){
+        double tmp = 0.0;
+        for(double x: avgSystemLoad){
+            tmp+= Math.pow(x-svg,2);
+        }
+    
+        return Math.sqrt((tmp/avgSystemLoad.size()));
+    }
+
+    private void avgCpusLoad(){
+        for(Cpu cpu: arrayOfCpus){
+            cpu.saveLoad();
+        }
+    } 
+
+    private void avgSystemLoad(){
+        Double tmp = 0.0;
+        for(Cpu cpu: arrayOfCpus){
+            tmp += cpu.getCurrentLoad();
+        }
+        avgSystemLoad.add(tmp/arrayOfCpus.size());
+    }
+
+    private boolean isCpusWorks(){
         for(Cpu cpu: arrayOfCpus){
             if(cpu.getCurrentLoad() > 0){
                 return true;
@@ -50,7 +103,7 @@ public class Algo3 {
         return false;
     }
 
-    public void allocateProcess(Process process){
+    private void allocateProcess(Process process){
         if(arrayOfCpus.get(process.getCpuNumber()).getCurrentLoad() >= p ){
             Random rand = new Random();
             int choosenCpu = process.getCpuNumber();
@@ -80,13 +133,13 @@ public class Algo3 {
         }
     }
 
-    public void updateCPUs(){
+    private void updateCPUs(){
         for(Cpu cpu:arrayOfCpus){
             cpu.updateProcesses();
         }
     }   
     
-    public void helpfulCpus(){
+    private void helpfulCpus(){
         ArrayList<Cpu> aboveP = new ArrayList<>();
         ArrayList<Cpu> belowR = new ArrayList<>();
         Random rand = new Random();
@@ -133,7 +186,7 @@ public class Algo3 {
         }
     }
 
-    public Process getMostDamandingProcess(Cpu cpu){
+    private Process getMostDamandingProcess(Cpu cpu){
         int index = 0;
         for(int x = 1; x < cpu.getProcesses().size(); x++){
             if(cpu.getProcesses().get(index).getLoad() < cpu.getProcesses().get(x).getLoad()){
@@ -143,7 +196,7 @@ public class Algo3 {
         return cpu.getProcesses().get(index);
     }
 
-    public boolean containsSomething(ArrayList<Integer>array, int x ){
+    private boolean containsSomething(ArrayList<Integer>array, int x ){
         for(int tmp: array){
             if(x == tmp){
                 return true;

@@ -9,19 +9,40 @@ public class Algo2 {
     private int p; // dane obciazenie
     private int migrationMeter;
     private int queryMeter;
+    private ArrayList<Double> avgCpuLoad;
+    private ArrayList<Double> avgSystemLoad;
+    private int tik;
+    private int time;
 
 
-    public Algo2(ArrayList<Cpu> arrayOfCpus, ArrayList<Process> arrayOfProcesses, int p){
+    public Algo2(ArrayList<Cpu> arrayOfCpus, ArrayList<Process> arrayOfProcesses, int p, int tik){
         this.arrayOfCpus = arrayOfCpus;
         this.arrayOfProcesses = arrayOfProcesses;
         this.p = p; 
         queryMeter = 0;
         migrationMeter = 0;
+        this.tik = tik;
+        time = 0;
+        avgCpuLoad = new ArrayList<>();
+        avgSystemLoad = new ArrayList<>();
         startSimulation();
 
         System.out.println("Algorytm 2");
         System.out.println("Ilość zapytań: " + queryMeter);
         System.out.println("Ilość migracji: " + migrationMeter);
+
+        Double tmp = 0.0;
+        for(Cpu cpu: arrayOfCpus){
+            tmp +=cpu.getAvgLoad();
+        }
+        System.out.println("Średnie obciążenie procesorów: " +(tmp/arrayOfCpus.size()) );
+        tmp = 0.0;
+        for(Double doub: avgSystemLoad){
+            tmp += doub;
+        }
+        System.out.println("Średnie obciążenie systemu: " +(tmp/avgSystemLoad.size()) );
+        System.out.println("Odchylenie standardowe obc. systemu: " + standardDeviation((tmp/avgSystemLoad.size())));
+
 
     }
 
@@ -35,11 +56,38 @@ public class Algo2 {
                 updateCPUs();
                 allocateProcess(process);
             }
- 
+            time += 1;
+            if(time%tik == 0){
+                avgCpusLoad();
+                avgSystemLoad();
+            }
         }
     }
 
-    public boolean isCpusWorks(){
+    public double standardDeviation(double svg){
+        double tmp = 0.0;
+        for(double x: avgSystemLoad){
+            tmp+= Math.pow(x-svg,2);
+        }
+    
+        return Math.sqrt((tmp/avgSystemLoad.size()));
+    }
+
+    private void avgCpusLoad(){
+        for(Cpu cpu: arrayOfCpus){
+            cpu.saveLoad();
+        }
+    } 
+
+    private void avgSystemLoad(){
+        Double tmp = 0.0;
+        for(Cpu cpu: arrayOfCpus){
+            tmp += cpu.getCurrentLoad();
+        }
+        avgSystemLoad.add(tmp/arrayOfCpus.size());
+    }
+
+    private boolean isCpusWorks(){
         for(Cpu cpu: arrayOfCpus){
             if(cpu.getCurrentLoad() > 0){
                 return true;
@@ -48,7 +96,7 @@ public class Algo2 {
         return false;
     }
 
-    public void allocateProcess(Process process){
+    private void allocateProcess(Process process){
         if(arrayOfCpus.get(process.getCpuNumber()).getCurrentLoad() >= p ){
             Random rand = new Random();
             int choosenCpu = process.getCpuNumber();
@@ -77,13 +125,13 @@ public class Algo2 {
         }
     }
 
-    public void updateCPUs(){
+    private void updateCPUs(){
         for(Cpu cpu:arrayOfCpus){
             cpu.updateProcesses();
         }
     }   
     
-    public boolean containsSomething(ArrayList<Integer>array, int x ){
+    private boolean containsSomething(ArrayList<Integer>array, int x ){
         for(int tmp: array){
             if(x == tmp){
                 return true;
