@@ -3,12 +3,14 @@ package so_laby_part5;
 import java.util.ArrayList;
 
 public class Cpu {
+    private ArrayList<Process> waitingProcesses;
     private ArrayList<Process> arrayOfProcesses;
     private int number;
     private double cpuLoad;
     private ArrayList<Double> cpuLoadHistory;
 
     public Cpu(int number){
+        waitingProcesses = new ArrayList<>();
         this.number = number;
         cpuLoad = 0;
         arrayOfProcesses = new ArrayList<>();
@@ -44,6 +46,7 @@ public class Cpu {
     }
 
     public void updateProcesses(){
+        
         for(int x = arrayOfProcesses.size()-1; x >= 0 ;x--){
             if(arrayOfProcesses.get(x).isDone()){
                 cpuLoad -= arrayOfProcesses.remove(x).getLoad();
@@ -52,6 +55,24 @@ public class Cpu {
                 arrayOfProcesses.get(x).increaseProgressOfProcess();
             }
         }
+    }
+
+    public int updateProcesses2(){
+        int tmp = 0;
+        for(int x = arrayOfProcesses.size()-1; x >= 0 ;x--){
+            if(arrayOfProcesses.get(x).isDone()){
+                tmp +=1;
+                cpuLoad -= arrayOfProcesses.remove(x).getLoad();
+            }
+            else{
+                arrayOfProcesses.get(x).increaseProgressOfProcess();
+            }
+        }
+        return tmp; 
+    }
+
+    public ArrayList<Process> getWaitingProcesses(){
+        return waitingProcesses;
     }
 
     public ArrayList<Process> getProcesses(){

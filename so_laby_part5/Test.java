@@ -12,10 +12,10 @@ public class Test{
     private int processesAmount = 50_000; // liczba zadan dla kazdego procka
     
     private int N = 50; //Liczba pracujących procesorów
-    private int p = 90; // dany prog do wszystkich algorytmow, powyzej czgos
-    private int r = 50; // minimalny prog do algorytmu 3
-    private int z = 25; //ilosc prob w algorytmie 1  
-    private int tik = 5; //tik do sprawdzania obciazenia;
+    private int p = 70; // dany prog do wszystkich algorytmow, powyzej czgos
+    private int r = 30; // minimalny prog do algorytmu 3
+    private int z = 5; //ilosc prob w algorytmie 1  
+    private int tik = 1; //tik do sprawdzania obciazenia;
     
     public Test(){
         arrayOfCPUs = new ArrayList<>();
@@ -26,15 +26,18 @@ public class Test{
         createCPUs();
         createProcesses(); 
 
-        Algo1 a = new Algo1(arrayOfCPUs, array1, z, p, tik);
+        // Algo1 a = new Algo1(arrayOfCPUs, array1, z, p, tik);
+        Algorithm1 a = new Algorithm1(arrayOfCPUs, array1, z, p, tik, 30);
         for(Cpu cpu: arrayOfCPUs){
             cpu.clearHistory();
         }
-        Algo2 b = new Algo2(arrayOfCPUs, array2, p, tik);
+        Algorithm2 b = new Algorithm2(arrayOfCPUs, array2, p, tik, 30);
+        //Algo2 b = new Algo2(arrayOfCPUs, array2, p, tik);
         for(Cpu cpu: arrayOfCPUs){
             cpu.clearHistory();
         }
-        Algo3 c = new Algo3(arrayOfCPUs, array3, p, r,tik);
+        //Algo3 c = new Algo3(arrayOfCPUs, array3, p, r,tik);
+        Algorithm3 c = new Algorithm3(arrayOfCPUs, array3, p, r, tik, 30);
     }
 
 
@@ -44,8 +47,8 @@ public class Test{
 
         for(int x = 0; x < processesAmount; x++){
             int i = rand.nextInt(0,N);
-            double load = Math.round(rand.nextDouble(1,10)*100)/100;
-            int length = rand.nextInt(1,100);
+            double load = Math.round(rand.nextDouble(2,20)*100)/100;
+            int length = rand.nextInt(2,20);
             array1.add(new Process(length, load, i));
             array2.add(new Process(length, load, i));
             array3.add(new Process(length, load, i));    
