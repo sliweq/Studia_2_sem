@@ -48,17 +48,18 @@ public class Algorithm3 {
 
     private void startSimulation(){
          while(arrayOfProcesses.size() != 0 || isCpusWorks()){
-            if(arrayOfProcesses.size() == 0){
-                updateCPUs();
+             if(arrayOfProcesses.size() == 0){
+                 updateCPUs();
+                }
+                else{
+                    updateCPUs();
+                    allocateProcess();
+                    helpfulCpus();
+                }
+                saveCpuLoad();
             }
-            else{
-                updateCPUs();
-                allocateProcess();
-                helpfulCpus();
-            }
-            saveCpuLoad();
-        }
     }
+
     private void standardDeviation(double avg){
         double tmp = 0.0;
         for(double x: avgSystemLoad){
@@ -67,15 +68,19 @@ public class Algorithm3 {
         System.out.println("Odchylenie standardowe dla systemu: " + Math.sqrt(tmp/avgSystemLoad.size()));
     }
 
-    private void saveCpuLoad(){
+ private void saveCpuLoad(){
+        double tmp = 0.0;
         for(Cpu cpu: arrayOfCpus){
             cpu.saveLoad();
+            avgSystemLoad.add(cpu.getCurrentLoad());
+            //tmp += cpu.getCurrentLoad();
         }
+        //avgSystemLoad.add(tmp/arrayOfCpus.size());
     }
     private double systemLoad(){
-        for(Cpu cpu: arrayOfCpus){
-            avgSystemLoad.add(cpu.getAvgLoad());
-        }
+        // for(Cpu cpu: arrayOfCpus){
+        //     avgSystemLoad.add(cpu.getAvgLoad());
+        // }
         double x = 0.0;
         for(double d: avgSystemLoad){
             x+=d;
@@ -83,7 +88,6 @@ public class Algorithm3 {
         System.out.println("Średnie obciążenie systemu: " + (x/avgSystemLoad.size()) );
         return (x/avgSystemLoad.size());
     }
-
 
     private boolean isCpusWorks(){
         for(Cpu cpu: arrayOfCpus){
@@ -105,7 +109,7 @@ public class Algorithm3 {
                 cpu.addProcess(arrayOfProcesses.remove(0));
             }
             else{
-                if(rand.nextInt(0, arrayOfCpus.size()) <= probability){
+                if(rand.nextInt(0, 1000) <= probability){
                     int[] asked = new int[arrayOfCpus.size()];
                     //zerowanie tablicy 
                     for(int x = 0; x < asked.length; x++){  
@@ -116,7 +120,7 @@ public class Algorithm3 {
                     }
                     //wybieranie ofiary której damy prcess
                     int choosenCpu = arrayOfCpus.indexOf(cpu);
-                    for(int x = 0; x< arrayOfCpus.size()-1; x++){
+                    for(int x = 0; x< arrayOfCpus.size()-2; x++){
                         int tmp = rand.nextInt(0,arrayOfCpus.size());
                         while(asked[tmp] == 1){
                             tmp = rand.nextInt(0,arrayOfCpus.size());
@@ -147,8 +151,6 @@ public class Algorithm3 {
     }   
     
     private void helpfulCpus(){
-
-        
         ArrayList<Cpu> aboveP = new ArrayList<>();
         ArrayList<Cpu> belowR = new ArrayList<>();
         Random rand = new Random();
@@ -191,7 +193,7 @@ public class Algorithm3 {
             if(aboveP.get(tmpAbove).getCurrentLoad() < p){
                 aboveP.remove(tmpAbove);
                 aPSize -=1 ;
-            }  
+            }
         }
     }
 

@@ -16,7 +16,16 @@ public class Graph{
 
     public void addNode(int start, int destination, int lenght ){
         graph[start].add(new Node(destination,lenght));
-    }    
+    }
+    
+    public void showCities(){
+        for(int x = 0; x < graph.length; x++){
+            System.out.println("Drogi z miasta " + cities[x]+":");
+            for(Node node: graph[x]){
+                System.out.println("-Miasto: " + cities[node.getVertex()] + " Odległość: " + node.getEdge());
+            }
+        }   
+    }
 
     public void dijkstra(){
         int distances[] = new int[graph.length];
@@ -44,11 +53,10 @@ public class Graph{
             for(Node node: graph[next]){
                 if(distances[next] + node.getEdge() < distances[node.getVertex()]){
                     distances[node.getVertex()] = distances[next] + node.getEdge();
-
                 }
             }
         } 
-        System.out.println("Najkrótsze droga z Wrocławia do:");
+        System.out.println("Najkrótsze drogi z " + cities[city] + " do:");
         for(int x = 0; x < graph.length; x++){
             System.out.println(cities[x] + " wynosi: " + distances[x]);
         }   
@@ -87,7 +95,6 @@ public class Graph{
             if(distances[x]<tmp && !visited[x] ){
                 tmp = distances[x];
                 index = x;
-
             }
         }
         return index; 
