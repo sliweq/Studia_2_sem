@@ -14,6 +14,13 @@ public class Process {
         this.original = original;
     }
 
+        public Process(int length, int load, boolean original, int progress){
+        lengthOfProcess = length;
+        progressOfProcess = progress;
+        this.load = load;
+        this.original = original;
+    }
+
     public void resertProgress(){
         progressOfProcess = 0;
     }

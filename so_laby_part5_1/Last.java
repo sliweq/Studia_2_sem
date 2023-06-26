@@ -26,7 +26,7 @@ public class Last {
         above100 = 0;
         startSimulation();
 
-        System.out.println("Algorytm 2");
+        System.out.println("Algorytm 3");
         System.out.println("Ilość zapytań: " + queries);
         System.out.println("Ilość migracji: " + migrations);
         System.out.println("Powyzej 100: " + above100);
@@ -35,9 +35,21 @@ public class Last {
         for(Double x: historyOfSystem){
             tmp += x;
         }
-        System.out.println("Srednie obciazenie systemu: " + (tmp/historyOfSystem.size()));
+        double average = tmp/historyOfSystem.size();
+        System.out.println("Srednie obciazenie systemu: " + average);
 
+        tmp = 0.0;
+        for(Double x: historyOfSystem){
+            tmp += Math.pow((average - x) , 2);
+        }
 
+        double deviation = Math.sqrt(tmp/historyOfSystem.size());
+        System.out.println("Odchylenie standardowe: " + deviation);
+
+        // System.out.println("Procesory :");
+        // for(Cpu cpu: cpus){
+        //     cpu.printCpuStats();
+        // }
     }
 
     private void startSimulation(){
@@ -47,41 +59,87 @@ public class Last {
             addNewProcesses();
             helpfullCpus();
             saveStats();
-            
         }
     }   
 
     public void helpfullCpus(){
         Random rand = new Random();
-        ArrayList<Integer> aboveP = new ArrayList<>();
-        ArrayList<Integer> belowR = new ArrayList<>();
+
+        ArrayList<Cpu> aboveP = new ArrayList<>();
+        ArrayList<Cpu> belowR = new ArrayList<>();
 
         for(Cpu cpu: cpus){
             if(cpu.getCurrentLoad() >= p){
-                aboveP.add(cpu.getCpuNumber());
-                queries +=1;
+                aboveP.add(cpu);
+                queries += 1 ;
             }
-            else if(cpu.getCurrentLoad() <=r){
-                belowR.add(cpu.getCpuNumber());
-                queries +=1 ;
+            else if(cpu.getCurrentLoad() <= r){
+                belowR.add(cpu);
+                queries += 1;
             }
         }
-        while(aboveP.size() > 0 && belowR.size() > 0){
+
+        while(belowR.size() >0 && aboveP.size() > 0){
             int tmpR = rand.nextInt(belowR.size());
             int tmpP = rand.nextInt(aboveP.size());
 
-            cpus.get(belowR.get(tmpR)).addNewProcess(cpus.get(aboveP.get(tmpP)).getMostDemandingProcess(),1);
-            migrations += 1;
-            if(cpus.get(tmpP).getCurrentLoad() < p){
-                aboveP.remove(tmpP);
-            }
-            
-            if(cpus.get(tmpR).getCurrentLoad() > r){
+            belowR.get(tmpR).addNewProcess(aboveP.get(tmpP).getMostDemandingProcess(), 1);
+            migrations +=1 ;
+
+            if(belowR.get(tmpR).getCurrentLoad() > r){
                 belowR.remove(tmpR);
             }
+            if(aboveP.get(tmpP).getCurrentLoad() < p){
+                aboveP.remove(tmpP);
+            }
 
+        //System.out.println(aboveP.size() + " " + belowR.size());
+
+        //    cpus.get(belowR.get(tmpR)).addNewProcess(cpus.get(aboveP.get(tmpP)).getMostDemandingProcess(),1);
+        //     migrations += 1;
+        //     if(cpus.get(tmpP).getCurrentLoad() < p){
+        //         aboveP.remove(tmpP);
+        //     }
+            
+        //     if(cpus.get(tmpR).getCurrentLoad() > r){
+        //         belowR.remove(tmpR);
+        //     }
+          
         }
 
+        // ArrayList<Integer> aboveP = new ArrayList<>();
+        // ArrayList<Integer> belowR = new ArrayList<>();
+
+        // for(Cpu cpu: cpus){
+        //     if(cpu.getCurrentLoad() >= p){
+        //         aboveP.add(cpu.getCpuNumber());
+        //         queries +=1;
+        //     }
+        //     else if(cpu.getCurrentLoad() <=r){
+        //         belowR.add(cpu.getCpuNumber());
+        //         queries +=1 ;
+        //     }
+        // }
+        // while(aboveP.size() > 0 && belowR.size() > 0){
+        //     int tmpR = rand.nextInt(belowR.size());
+        //     int tmpP = rand.nextInt(aboveP.size());
+
+        //     System.out.println(aboveP.size() + " " + tmpP+ " " + belowR.size()+ " " + tmpR);
+        //     Cpu cpup = cpus.get(aboveP.get(tmpP));
+        //     Cpu cpur = cpus.get(belowR.get(tmpR));
+        //     System.out.println(cpup.getCurrentLoad());
+        //     System.out.println(cpur.getCurrentLoad());
+
+        //     cpus.get(belowR.get(tmpR)).addNewProcess(cpus.get(aboveP.get(tmpP)).getMostDemandingProcess(),1);
+        //     migrations += 1;
+        //     if(cpus.get(tmpP).getCurrentLoad() < p){
+        //         aboveP.remove(tmpP);
+        //     }
+            
+        //     if(cpus.get(tmpR).getCurrentLoad() > r){
+        //         belowR.remove(tmpR);
+        //     }
+        // }
     }
 
     public void addNewProcesses(){

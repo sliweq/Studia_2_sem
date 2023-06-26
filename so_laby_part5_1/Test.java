@@ -9,16 +9,15 @@ public class Test {
     private int processesAmount = 1000; // liczba zadan dla kazdego procka
     
     private int N = 50; //Liczba pracujących procesorów
-    private int p = 90; // dany prog do wszystkich algorytmow, powyzej czgos
-    private int r = 50; // minimalny prog do algorytmu 3
+    private int p = 70; // dany prog do wszystkich algorytmow, powyzej czgos
+    private int r = 25; // minimalny prog do algorytmu 3    
     private int z = 25; //ilosc prob w algorytmie 1  
-    //private int tik = 1; //tik do sprawdzania obciazenia;
 
-    private int max_load = 10;
-    private int min_load = 1;
+    private int max_load = 20;
+    private int min_load = 2;
 
-    private int min_duration = 1 ;
-    private int max_duration = 100;
+    private int min_duration = 2 ;
+    private int max_duration = 28;
 
     private int probability = 35;
 
@@ -36,15 +35,19 @@ public class Test {
 
         for(Cpu cpu: arrayOfCPUs){
             cpu.resetCpu();
+            //cpu.tmpMethod();
         }
         
         Two t = new Two(arrayOfCPUs, probability, p);
 
         for(Cpu cpu: arrayOfCPUs){
             cpu.resetCpu();
+            //cpu.tmpMethod();
+
         }
 
         Last l = new Last(arrayOfCPUs, probability, p, r);
+
 
 
     }

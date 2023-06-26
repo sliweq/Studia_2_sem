@@ -1,8 +1,11 @@
 package Lista12;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +25,7 @@ public class Huffman {
     private String zakodowyanyTeskt;
 
     private List<String> tekst;
+
     private String plik;
 
     private Node root; 
@@ -222,7 +226,7 @@ public class Huffman {
     private void pokazKod(Node node){
         if(node != null){
             if(node.getZnak() != null){
-                System.out.println("'"+node.getZnak() + "'-" + node.getWartosc());
+                System.out.println("'"+node.getZnak() + "'- " + node.getWartosc() + " " +  node.getCode());
             }
             else{
                 pokazKod(node.getLewy());
@@ -235,6 +239,7 @@ public class Huffman {
         pokazHuffmana(root,0);
         System.out.println();
     }
+
     private void pokazHuffmana(Node node,int x){
         System.out.println();
         if(node.getZnak() != null){
@@ -251,7 +256,7 @@ public class Huffman {
             }
         }
         else{
-                        for(int i = 0; i < x; i++ ){
+            for(int i = 0; i < x; i++ ){
                 System.out.print(" ");
             }
             System.out.print("|__ " + " (" + node.getWartosc() + ")");
@@ -265,6 +270,36 @@ public class Huffman {
         }
     }
 
+    public void zapisDopliku() throws IOException{
+        String nazwa = "kod.txt";
+        File f = new File(nazwa);
+
+        BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+
+        bw.write(stworzHuffmana());
+        bw.close();
+    }
+
+    public String odczytajPlik(String nazwa) throws IOException{
+        String kod = "";
+        File f = new File(nazwa);
+
+        BufferedReader br = new BufferedReader(new FileReader(f));
+
+        String line = br.readLine();
+        while(line != null){
+            kod+= line;
+            line = br.readLine();
+        }
+
+        System.out.println("Kod Tekstu:");
+        System.out.println(kod);
+        System.out.println("----------------------------");
+        System.out.println("Tekst:");
+
+        return kod;
+    }
+
 }
 
 
@@ -274,10 +309,12 @@ class HuffmanComparator implements Comparator<Node>{
             if(arg1.getZnak() != null){
                 return arg0.getWartosc()-arg1.getWartosc();
             }
-            return arg0.getWartosc();
+            return 1;
+            //return arg0.getWartosc();
         }
         if(arg1.getZnak() != null){
-            return arg1.getWartosc();       
+            return 1;
+            //return arg1.getWartosc();       
         }
         return arg0.getWartosc()-arg1.getWartosc();
     }

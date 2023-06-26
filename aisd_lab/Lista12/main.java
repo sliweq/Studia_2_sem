@@ -11,19 +11,17 @@ public class main {
 
         Huffman h = new Huffman("tekst.txt");
         h.wczytajTekst();
-        String tekst = h.stworzHuffmana();
-        System.out.println("----------------------------");
-        System.out.println("Kod Tekstu:");
-        System.out.println(tekst);
+        h.zapisDopliku();
+        
         System.out.println("----------------------------");
         System.out.println("Znaki i kodowania:");
         h.pokazKod();
         System.out.println("----------------------------");
-        System.out.println("Tekst:");;
-        h.kodNaTekst(tekst);
+        h.kodNaTekst(h.odczytajPlik("kod.txt"));
         System.out.println("\n----------------------------");
-        System.out.println("Huffman:");
-        h.pokazHuffmana();
+        
+        //System.out.println("Huffman:");
+        //h.pokazHuffmana();
     }
     
 }

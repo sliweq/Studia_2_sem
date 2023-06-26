@@ -29,15 +29,27 @@ public class Two {
         System.out.println("Algorytm 2");
         System.out.println("Ilość zapytań: " + queries);
         System.out.println("Ilość migracji: " + migrations);
-                System.out.println("Powyzej 100: " + above100);
-
+        System.out.println("Powyzej 100: " + above100);
         
         Double tmp = 0.0;
         for(Double x: historyOfSystem){
             tmp += x;
         }
-        System.out.println("Srednie obciazenie systemu: " + (tmp/historyOfSystem.size()));
+        double average = tmp/historyOfSystem.size();
+        System.out.println("Srednie obciazenie systemu: " + average);
 
+        tmp = 0.0;
+        for(Double x: historyOfSystem){
+            tmp += Math.pow((average - x) , 2);
+        }
+
+        double deviation = Math.sqrt(tmp/historyOfSystem.size());
+        System.out.println("Odchylenie standardowe: " + deviation);
+
+        // System.out.println("Procesory :");
+        // for(Cpu cpu: cpus){
+        //     cpu.printCpuStats();
+        // }
 
     }
 

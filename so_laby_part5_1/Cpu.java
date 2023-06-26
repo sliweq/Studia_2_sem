@@ -86,7 +86,7 @@ public class Cpu {
     public Process giveBackProcess(){
         Process process =  waitingProcesses.remove(0);
         Process tmpProcess = new Process(process.getlengthOfProcess(), process.getlengthOfProcess(), false);
-
+        doneProcesses.add(process);
         return tmpProcess; 
     }
 
@@ -106,9 +106,31 @@ public class Cpu {
             }
         }
         Process process =  workingProcesses.remove(x);
+        doneProcesses.add(process);
         cpuLoad -= process.getLoad();
-        Process tmpProcess = new Process(process.getlengthOfProcess(), process.getLoad(), false);
+        Process tmpProcess = new Process(process.getlengthOfProcess(), process.getLoad(), false, process.getExecutionStatus());
 
         return tmpProcess; 
     }
+
+    public void printCpuStats(){
+        int avg = 0;
+        for(int d: historyOfCpu){
+            avg += d;
+        }
+        double avgdouble = (double)((int)((avg/(historyOfCpu.size()*1.0))*100))/100.0 ;
+        System.out.print("Średnie obciazenie cpu " + number + ": " + avgdouble);
+        
+        double x = 0.0;
+        for(int d: historyOfCpu){
+            x += Math.pow((d-avgdouble),2);
+        }
+        avgdouble = (double)((int)(Math.sqrt(x/historyOfCpu.size())*100))/100.0 ;
+        System.out.println(" " + avgdouble );
+    }
+    
+    public void tmpMethod(){
+        System.out.print(waitingProcesses.size() + " ");
+    }
+
 }
