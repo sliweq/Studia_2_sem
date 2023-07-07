@@ -14,8 +14,7 @@ public class One {
     private int probability; 
     private int z;
     private int p;
-        private int above100;
-
+    private int above100;
     
     public One(ArrayList<Cpu> cpus, int probability, int p, int z){
         this.cpus = cpus;
@@ -106,11 +105,9 @@ public class One {
                 break;
             }
         }
-
         if(!alocated){
             cpu.addNewProcess(new Process(-1, -1, true), 1);
         }
-
     }
 
     private void updateCpus(){
@@ -124,7 +121,6 @@ public class One {
             if(cpu.isCpuWorks()){
                 return true;
             }
-
         }
         return false;
     }

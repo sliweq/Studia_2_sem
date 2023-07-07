@@ -43,13 +43,9 @@ public class Test {
         for(Cpu cpu: arrayOfCPUs){
             cpu.resetCpu();
             //cpu.tmpMethod();
-
         }
 
         Last l = new Last(arrayOfCPUs, probability, p, r);
-
-
-
     }
 
     public static void main(String[] args) {

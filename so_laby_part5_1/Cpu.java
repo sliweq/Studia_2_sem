@@ -95,10 +95,6 @@ public class Cpu {
     }
 
     public Process getMostDemandingProcess(){
-        if(workingProcesses.size() == 0){
-            System.out.println("chuj");
-            System.out.println(cpuLoad);
-        }
         int x = 0;
         for(int i = 1; i < workingProcesses.size(); i++){
             if(workingProcesses.get(x).getLoad() < workingProcesses.get(i).getLoad()){

@@ -50,7 +50,6 @@ public class Two {
         // for(Cpu cpu: cpus){
         //     cpu.printCpuStats();
         // }
-
     }
 
     private void startSimulation(){
@@ -65,10 +64,9 @@ public class Two {
     public void addNewProcesses(){
         Random rand = new Random();
         for(Cpu cpu: cpus){
-                        if(cpu.getCurrentLoad() > 100){
+            if(cpu.getCurrentLoad() > 100){
                 above100 +=1;
             }
-
             if(rand.nextInt(0,100) <= probability){
                 if(!cpu.isWaitingQueueEmpty()){
                     allocateProcess(cpu);
